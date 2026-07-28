@@ -6,7 +6,10 @@ A single-page, interactive reference guide for Git and GitHub — installation, 
 
 - **Installation** — step-by-step setup for Windows, Mac, and Linux, plus first-time Git configuration and SSH key generation/testing for GitHub.
 - **Commands Reference** — a searchable, filterable command list covering Basic Setup, Changes, Branches, Remote, History, Undo, and Tags, with usage examples and when to use each one.
-- **Beginner's Guide** — core Git concepts, setting up your first project, creating a pull request, and an intro to GitHub Actions.
+- **Beginner's Guide** — core Git concepts plus three walkthroughs:
+  - *My First Project* — create a repo on GitHub, clone it locally, create a file, then stage, commit, and push your first change (7 guided steps).
+  - *Pull Requests* — branch, edit, commit, and push a change, open a PR on GitHub, get it reviewed, and merge it, plus PR best practices (keep PRs small, write clear descriptions, respond to feedback).
+  - *GitHub Actions* — common uses (running tests, code quality checks, automatic deployment, build artifacts) and how to create your first workflow file in `.github/workflows/`.
 
 ## Usage
 
