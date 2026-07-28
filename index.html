@@ -2648,7 +2648,7 @@ jobs:
 
         const branchSteps = [
             { nodes: ['A', 'B', 'C'], edges: ['AB', 'BC'], main: { x: 170, y: 170 }, feature: null, head: 'main', caption: 'main has three commits: A, B, C.', command: null },
-            { nodes: ['A', 'B', 'C'], edges: ['AB', 'BC'], main: { x: 170, y: 170 }, feature: { x: 192, y: 170 }, head: 'feature', caption: 'git checkout -b feature creates a new pointer at the same commit as main, and moves HEAD onto it.', command: 'git checkout -b feature' },
+            { nodes: ['A', 'B', 'C'], edges: ['AB', 'BC'], main: { x: 170, y: 170 }, feature: { x: 230, y: 170 }, head: 'feature', caption: 'git checkout -b feature creates a new pointer at the same commit as main, and moves HEAD onto it.', command: 'git checkout -b feature' },
             { nodes: ['A', 'B', 'C', 'D'], edges: ['AB', 'BC', 'CD'], main: { x: 170, y: 170 }, feature: { x: 230, y: 90 }, head: 'feature', caption: 'Committing on feature moves the feature pointer forward — main is untouched.', command: 'git commit -m "Add feature part 1"' },
             { nodes: ['A', 'B', 'C', 'D'], edges: ['AB', 'BC', 'CD'], main: { x: 170, y: 170 }, feature: { x: 230, y: 90 }, head: 'main', caption: 'Switching back to main moves HEAD, but doesn\'t change any commits — main and feature still point where they did.', command: 'git checkout main' },
             { nodes: ['A', 'B', 'C', 'D', 'F'], edges: ['AB', 'BC', 'CD', 'CF'], main: { x: 290, y: 170 }, feature: { x: 230, y: 90 }, head: 'main', caption: 'main gets a new commit too — main and feature have now diverged from their shared commit C.', command: 'git commit -m "Fix typo on main"' },
