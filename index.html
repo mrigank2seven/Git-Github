@@ -1,0 +1,2105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git Complete Guide - Installation & Commands</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.95;
+        }
+
+        .nav-tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e0e0e0;
+            overflow-x: auto;
+        }
+
+        .nav-tab {
+            padding: 16px 24px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+        }
+
+        .nav-tab:hover { color: #667eea; background: #f0f0f0; }
+        .nav-tab.active { color: #667eea; border-bottom-color: #667eea; }
+
+        .content { padding: 40px; }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ======== INSTALLATION UI ======== */
+        .os-tabs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+
+        .os-tab {
+            padding: 16px 20px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s ease;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .os-tab:hover {
+            border-color: #667eea;
+            color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.15);
+        }
+
+        .os-tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .os-content { display: none; }
+        .os-content.active { display: block; animation: fadeIn 0.3s ease; }
+
+        .installation-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #1a1a1a;
+        }
+
+        .step-box {
+            background: white;
+            border: 2px solid #f0f0f0;
+            border-left: 5px solid #667eea;
+            padding: 28px;
+            margin-bottom: 18px;
+            border-radius: 14px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+        }
+
+        .step-box:hover {
+            border-color: #667eea;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .step-box.success-step {
+            border-left-color: #27ae60;
+            background: linear-gradient(to right, #f0fdf4 0%, white 100%);
+        }
+
+        .step-box.info-step {
+            border-left-color: #2196F3;
+            background: linear-gradient(to right, #eff6ff 0%, white 100%);
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .step-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 20px;
+            margin-right: 16px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .step-box.success-step .step-number {
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+        }
+
+        .step-box.info-step .step-number {
+            background: linear-gradient(135deg, #2196F3 0%, #1565c0 100%);
+        }
+
+        .step-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: #1a1a1a;
+            line-height: 1.3;
+        }
+
+        .step-content {
+            margin-left: 60px;
+            margin-top: 8px;
+        }
+
+        .step-description {
+            color: #555;
+            line-height: 1.7;
+            margin-bottom: 14px;
+            font-size: 14px;
+        }
+
+        .step-description a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid transparent;
+        }
+
+        .step-description a:hover {
+            color: #764ba2;
+            border-bottom-color: #764ba2;
+        }
+
+        .code-block {
+            background: #1a1a1a;
+            color: #e6e6e6;
+            padding: 16px 18px;
+            border-radius: 10px;
+            font-family: 'Courier New', 'Monaco', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            line-height: 1.7;
+            position: relative;
+            margin-bottom: 14px;
+            border: 1px solid #333;
+            word-break: break-all;
+            user-select: all;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .code-block::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .code-block::-webkit-scrollbar-track {
+            background: #0d0d0d;
+        }
+
+        .code-block::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 3px;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+        }
+
+        .copy-btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .copy-btn:active {
+            transform: translateY(0);
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            padding: 14px 16px;
+            border-radius: 10px;
+            border-left: 4px solid #2196F3;
+            margin-bottom: 14px;
+            color: #1565c0;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .info-box strong { font-weight: 600; }
+
+        .success-box {
+            background: linear-gradient(135deg, #55efc4 0%, #38ada9 100%);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            color: white;
+            font-size: 14px;
+            line-height: 1.6;
+            border-left: 4px solid #27ae60;
+            box-shadow: 0 5px 20px rgba(39, 174, 96, 0.2);
+        }
+
+        .success-box-title {
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            font-size: 15px;
+        }
+
+        .success-box-title:before {
+            content: "✓";
+            margin-right: 8px;
+            font-size: 20px;
+        }
+
+        .separator {
+            height: 1px;
+            background: linear-gradient(90deg, #e0e0e0 0%, transparent 50%, #e0e0e0 100%);
+            margin: 40px 0;
+        }
+
+        /* ======== COMMANDS & SEARCH ======== */
+        .search-box {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+            margin-bottom: 20px;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .filter-btn {
+            padding: 10px 18px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: #666;
+        }
+
+        .filter-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .commands-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .command-card {
+            background: white;
+            border: 2px solid #f0f0f0;
+            border-radius: 15px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .command-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .cmd-category {
+            display: inline-block;
+            font-size: 11px;
+            padding: 6px 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 20px;
+            margin-bottom: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .cmd-name {
+            font-family: 'Courier New', monospace;
+            font-size: 15px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 10px;
+            word-break: break-all;
+            line-height: 1.4;
+        }
+
+        .cmd-description {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .cmd-usage {
+            font-size: 13px;
+            background: #f5f7ff;
+            padding: 12px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            font-family: 'Courier New', monospace;
+            color: #333;
+            margin-bottom: 15px;
+            word-break: break-all;
+            line-height: 1.5;
+        }
+
+        .cmd-when {
+            font-size: 13px;
+            color: #666;
+            padding-top: 15px;
+            border-top: 2px solid #f0f0f0;
+            line-height: 1.6;
+        }
+
+        .cmd-when-title {
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        .cmd-when-title:before {
+            content: "⏰";
+            margin-right: 8px;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 30px 40px;
+            text-align: center;
+            color: #999;
+            font-size: 14px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .footer-links {
+            margin-top: 15px;
+        }
+
+        .footer-links a {
+            color: #667eea;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            color: #333;
+            font-size: 14px;
+            line-height: 1.6;
+            border-left: 4px solid #f39c12;
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.15);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 40px;
+            color: #999;
+        }
+
+        .empty-state-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h3 {
+            font-size: 24px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .beginner-tab-content {
+            display: none;
+        }
+
+        .beginner-tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .header { padding: 40px 20px; }
+            .header h1 { font-size: 32px; }
+            .content { padding: 20px; }
+            .commands-grid { grid-template-columns: 1fr; }
+            .os-tabs { grid-template-columns: 1fr; }
+            .step-box { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Complete Git & GitHub Guide</h1>
+            <p>Installation, Setup, and Master All Git Commands</p>
+        </div>
+
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="switchTab(event, 'installation')">📥 Installation</button>
+            <button class="nav-tab" onclick="switchTab(event, 'commands')">⚡ Commands</button>
+            <button class="nav-tab" onclick="switchTab(event, 'beginner')">🎓 Beginner Guide</button>
+        </div>
+
+        <div class="content">
+
+            <!-- ============ INSTALLATION TAB ============ -->
+            <div id="installation" class="tab-content active">
+                <h2 style="font-size: 28px; margin-bottom: 30px; color: #333;">💻 How to Install Git</h2>
+
+                <div class="tip-box">
+                    <div style="font-weight: 700; margin-bottom: 8px;">💡 Quick Tip</div>
+                    <p>Choose your operating system and follow the steps. Installation takes just 5 minutes!</p>
+                </div>
+
+                <div class="os-tabs">
+                    <button class="os-tab active" onclick="switchOS(event, 'windows')">🪟 Windows</button>
+                    <button class="os-tab" onclick="switchOS(event, 'mac')">🍎 Mac</button>
+                    <button class="os-tab" onclick="switchOS(event, 'linux')">🐧 Linux</button>
+                </div>
+
+                <!-- WINDOWS INSTALLATION -->
+                <div id="windows" class="os-content active">
+                    <div class="installation-title">Windows Installation</div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">1</div>
+                            <div class="step-title">Download Git Installer</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Visit <a href="https://git-scm.com/" target="_blank">https://git-scm.com/</a> and click the "Download for Windows" button.
+                            </div>
+                            <div class="info-box">
+                                The file will be named something like <strong>Git-2.x.x-64-bit.exe</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">2</div>
+                            <div class="step-title">Run the Installer</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Double-click the downloaded .exe file to start installation.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">3</div>
+                            <div class="step-title">Follow Installation Wizard</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Click "Next" through all the setup screens. Don't worry about the options - the default settings are perfect for beginners!
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">4</div>
+                            <div class="step-title">Complete Installation</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Click "Finish" when the installation completes. Git is now installed!
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">5</div>
+                            <div class="step-title">Verify Installation</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Open "Command Prompt" or "PowerShell" and type:
+                            </div>
+                            <div class="code-block">
+                                git --version
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <div class="step-description">
+                                You should see: <code style="background: #f0f0f0; padding: 2px 6px; border-radius: 4px;">git version 2.x.x.windows.1</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="success-box">
+                        <div class="success-box-title">Git is Installed!</div>
+                        <p>You've successfully installed Git on Windows. Ready to move on! 🎉</p>
+                    </div>
+                </div>
+
+                <!-- MAC INSTALLATION -->
+                <div id="mac" class="os-content">
+                    <div class="installation-title">Mac Installation</div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">1</div>
+                            <div class="step-title">Method 1: Using Homebrew (Recommended)</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Open Terminal and type:
+                            </div>
+                            <div class="code-block">
+                                brew install git
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <div class="info-box">
+                                Don't have Homebrew? Install it from <a href="https://brew.sh/" target="_blank" style="color: #1565c0;">https://brew.sh/</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">2</div>
+                            <div class="step-title">Method 2: Download Installer</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Visit <a href="https://git-scm.com/" target="_blank">https://git-scm.com/</a>, download for Mac, and double-click to install.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">3</div>
+                            <div class="step-title">Method 3: Xcode Command Line Tools</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Open Terminal and type:
+                            </div>
+                            <div class="code-block">
+                                xcode-select --install
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">4</div>
+                            <div class="step-title">Verify Installation</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Open Terminal and type:
+                            </div>
+                            <div class="code-block">
+                                git --version
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="success-box">
+                        <div class="success-box-title">Git is Ready on Mac!</div>
+                        <p>Git is now installed and configured. Let's set it up! 🎉</p>
+                    </div>
+                </div>
+
+                <!-- LINUX INSTALLATION -->
+                <div id="linux" class="os-content">
+                    <div class="installation-title">Linux Installation</div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">1</div>
+                            <div class="step-title">Ubuntu / Debian-based</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Open Terminal and type:
+                            </div>
+                            <div class="code-block">
+                                sudo apt update
+sudo apt install git
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">2</div>
+                            <div class="step-title">Fedora / RedHat-based</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Open Terminal and type:
+                            </div>
+                            <div class="code-block">
+                                sudo dnf install git
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">3</div>
+                            <div class="step-title">Arch Linux</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Open Terminal and type:
+                            </div>
+                            <div class="code-block">
+                                sudo pacman -S git
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">4</div>
+                            <div class="step-title">Verify Installation</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Type in Terminal:
+                            </div>
+                            <div class="code-block">
+                                git --version
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="success-box">
+                        <div class="success-box-title">Git is Installed on Linux!</div>
+                        <p>You're all set. Time to configure Git! 🎉</p>
+                    </div>
+                </div>
+
+                <div class="separator"></div>
+
+                <!-- FIRST TIME SETUP -->
+                <h2 style="font-size: 24px; margin-bottom: 25px; color: #333;">⚙️ First Time Setup (All Operating Systems)</h2>
+
+                <div class="step-box">
+                    <div class="step-header">
+                        <div class="step-number">1</div>
+                        <div class="step-title">Set Your Name</div>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-description">
+                            This will appear in all your commits:
+                        </div>
+                        <div class="code-block">
+                            git config --global user.name "Your Full Name"
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <div class="info-box">
+                            <strong>Example:</strong> git config --global user.name "John Doe"
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-box">
+                    <div class="step-header">
+                        <div class="step-number">2</div>
+                        <div class="step-title">Set Your Email</div>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-description">
+                            Use the same email as your GitHub account:
+                        </div>
+                        <div class="code-block">
+                            git config --global user.email "your.email@example.com"
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <div class="info-box">
+                            <strong>Example:</strong> git config --global user.email "john@example.com"
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-box">
+                    <div class="step-header">
+                        <div class="step-number">3</div>
+                        <div class="step-title">Verify Your Settings</div>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-description">
+                            Check that everything is configured correctly:
+                        </div>
+                        <div class="code-block">
+                            git config --list
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <div class="success-box-title">All Setup Complete!</div>
+                    <p>Git is installed and configured on your computer. You're ready to start using Git! 🚀</p>
+                </div>
+
+                <div class="separator"></div>
+
+                <!-- SSH KEY SETUP -->
+                <h2 style="font-size: 24px; margin-bottom: 25px; color: #333;">🔐 Generate SSH Keys (Secure Connection to GitHub)</h2>
+
+                <div class="tip-box">
+                    <div style="font-weight: 700; margin-bottom: 8px;">💡 Why SSH Keys?</div>
+                    <p>SSH keys are a secure way to connect to GitHub without typing your password every time. It's more secure and convenient!</p>
+                </div>
+
+                <div class="os-tabs">
+                    <button class="os-tab active" onclick="switchOS(event, 'ssh-windows')">🪟 Windows</button>
+                    <button class="os-tab" onclick="switchOS(event, 'ssh-mac')">🍎 Mac</button>
+                    <button class="os-tab" onclick="switchOS(event, 'ssh-linux')">🐧 Linux</button>
+                </div>
+
+                <!-- SSH WINDOWS -->
+                <div id="ssh-windows" class="os-content active">
+                    <div class="installation-title">Generate SSH Key on Windows</div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">1</div>
+                            <div class="step-title">Open PowerShell as Administrator</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Right-click on PowerShell and select "Run as Administrator"
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">2</div>
+                            <div class="step-title">Generate SSH Key</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Type this command (replace with your email):
+                            </div>
+                            <div class="code-block">
+                                ssh-keygen -t ed25519 -C "your.email@example.com"
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <div class="info-box">
+                                <strong>For older systems:</strong> ssh-keygen -t rsa -b 4096 -C "your.email@example.com"
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">3</div>
+                            <div class="step-title">Press Enter for Default Location</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                When asked for file location, just press Enter to save to the default location: <code style="background: #f0f0f0; padding: 2px 6px; border-radius: 4px;">.ssh/id_ed25519</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">4</div>
+                            <div class="step-title">Create a Passphrase (Optional)</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                When asked for a passphrase, you can either type one for extra security, or press Enter to skip it. For beginners, skipping is fine.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">5</div>
+                            <div class="step-title">View Your Public Key</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Type this to see your public key:
+                            </div>
+                            <div class="code-block">
+                                type $env:USERPROFILE\.ssh\id_ed25519.pub
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <div class="info-box">
+                                <strong>Important:</strong> Copy the entire output that starts with "ssh-ed25519"
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">6</div>
+                            <div class="step-title">Add Key to GitHub</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                1. Go to <a href="https://github.com/settings/keys" target="_blank">GitHub Settings → SSH and GPG keys</a><br>
+                                2. Click "New SSH key"<br>
+                                3. Paste your public key from step 5<br>
+                                4. Click "Add SSH key"
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="success-box">
+                        <div class="success-box-title">SSH Key Added!</div>
+                        <p>Your SSH key is now connected to GitHub. You can push/pull without passwords! 🔐</p>
+                    </div>
+                </div>
+
+                <!-- SSH MAC -->
+                <div id="ssh-mac" class="os-content">
+                    <div class="installation-title">Generate SSH Key on Mac</div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">1</div>
+                            <div class="step-title">Open Terminal</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Press Cmd + Space, type "Terminal", and press Enter
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">2</div>
+                            <div class="step-title">Generate SSH Key</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Type this command (replace with your email):
+                            </div>
+                            <div class="code-block">
+                                ssh-keygen -t ed25519 -C "your.email@example.com"
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <div class="info-box">
+                                <strong>For older Macs:</strong> ssh-keygen -t rsa -b 4096 -C "your.email@example.com"
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">3</div>
+                            <div class="step-title">Press Enter for Default Location</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                When prompted, press Enter to save to: <code style="background: #f0f0f0; padding: 2px 6px; border-radius: 4px;">~/.ssh/id_ed25519</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">4</div>
+                            <div class="step-title">Create a Passphrase (Optional)</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Enter a passphrase for security, or press Enter to skip. For beginners, you can skip this.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">5</div>
+                            <div class="step-title">Start SSH Agent</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Type this to start the SSH agent:
+                            </div>
+                            <div class="code-block">
+                                eval "$(ssh-agent -s)"
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">6</div>
+                            <div class="step-title">Add Key to SSH Agent</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Type this to add your key:
+                            </div>
+                            <div class="code-block">
+                                ssh-add ~/.ssh/id_ed25519
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">7</div>
+                            <div class="step-title">View Your Public Key</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Type this to display your public key:
+                            </div>
+                            <div class="code-block">
+                                cat ~/.ssh/id_ed25519.pub
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <div class="info-box">
+                                <strong>Copy the entire output</strong> starting with "ssh-ed25519"
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">8</div>
+                            <div class="step-title">Add Key to GitHub</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                1. Go to <a href="https://github.com/settings/keys" target="_blank">GitHub Settings → SSH and GPG keys</a><br>
+                                2. Click "New SSH key"<br>
+                                3. Paste your public key from step 7<br>
+                                4. Click "Add SSH key"
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="success-box">
+                        <div class="success-box-title">SSH Key Connected!</div>
+                        <p>Your Mac is now securely connected to GitHub! 🔐</p>
+                    </div>
+                </div>
+
+                <!-- SSH LINUX -->
+                <div id="ssh-linux" class="os-content">
+                    <div class="installation-title">Generate SSH Key on Linux</div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">1</div>
+                            <div class="step-title">Open Terminal</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Press Ctrl + Alt + T to open Terminal
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">2</div>
+                            <div class="step-title">Generate SSH Key</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Type this command (replace with your email):
+                            </div>
+                            <div class="code-block">
+                                ssh-keygen -t ed25519 -C "your.email@example.com"
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <div class="info-box">
+                                <strong>For older systems:</strong> ssh-keygen -t rsa -b 4096 -C "your.email@example.com"
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">3</div>
+                            <div class="step-title">Press Enter for Default Location</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                When asked for file location, press Enter to save to: <code style="background: #f0f0f0; padding: 2px 6px; border-radius: 4px;">~/.ssh/id_ed25519</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">4</div>
+                            <div class="step-title">Create a Passphrase (Optional)</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Enter a passphrase if you want extra security, or press Enter to skip
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">5</div>
+                            <div class="step-title">Start SSH Agent</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Type this to start the SSH agent:
+                            </div>
+                            <div class="code-block">
+                                eval "$(ssh-agent -s)"
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">6</div>
+                            <div class="step-title">Add Key to SSH Agent</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Type this to add your key:
+                            </div>
+                            <div class="code-block">
+                                ssh-add ~/.ssh/id_ed25519
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">7</div>
+                            <div class="step-title">View Your Public Key</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Type this to display your public key:
+                            </div>
+                            <div class="code-block">
+                                cat ~/.ssh/id_ed25519.pub
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <div class="info-box">
+                                <strong>Copy the entire output</strong> starting with "ssh-ed25519"
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">8</div>
+                            <div class="step-title">Add Key to GitHub</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                1. Go to <a href="https://github.com/settings/keys" target="_blank">GitHub Settings → SSH and GPG keys</a><br>
+                                2. Click "New SSH key"<br>
+                                3. Paste your public key from step 7<br>
+                                4. Click "Add SSH key"
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="success-box">
+                        <div class="success-box-title">SSH Key Added!</div>
+                        <p>Your Linux system is now connected to GitHub securely! 🔐</p>
+                    </div>
+                </div>
+
+                <!-- TEST SSH CONNECTION -->
+                <div class="separator"></div>
+
+                <h2 style="font-size: 24px; margin-bottom: 25px; color: #333;">✅ Test Your SSH Connection</h2>
+
+                <div class="step-box info-step">
+                    <div class="step-header">
+                        <div class="step-number">1</div>
+                        <div class="step-title">Test Connection (All Operating Systems)</div>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-description">
+                            Type this command in your terminal:
+                        </div>
+                        <div class="code-block">
+                            ssh -T git@github.com
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-box info-step">
+                    <div class="step-header">
+                        <div class="step-number">2</div>
+                        <div class="step-title">If You See "Hi [username]!"</div>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-description">
+                            Congratulations! Your SSH key is working perfectly. You can now use Git with GitHub securely! 🎉
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-box info-step">
+                    <div class="step-header">
+                        <div class="step-number">3</div>
+                        <div class="step-title">If You See an Error</div>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-description">
+                            1. Make sure your public key is added to GitHub (double-check the copy-paste)<br>
+                            2. Check that the SSH agent is running<br>
+                            3. Try the commands again from step 5/6
+                        </div>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <div class="success-box-title">SSH Setup Complete!</div>
+                    <p>You now have secure SSH access to GitHub. No more typing passwords! 🚀🔐</p>
+                </div>
+            </div>
+
+            <!-- ============ COMMANDS TAB ============ -->
+            <div id="commands" class="tab-content">
+                <h2 style="font-size: 28px; margin-bottom: 30px; color: #333;">⚡ Git Commands Reference</h2>
+
+                <div class="stats">
+                    <div class="stat-card">
+                        <div class="stat-number" id="total">50</div>
+                        <div class="stat-label">Total Commands</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="showing">50</div>
+                        <div class="stat-label">Showing</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">7</div>
+                        <div class="stat-label">Categories</div>
+                    </div>
+                </div>
+
+                <input type="text" class="search-box" id="searchInput" placeholder="🔍 Search commands... (e.g., 'branch', 'merge', 'push')">
+
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">All Commands</button>
+                    <button class="filter-btn" data-filter="basic">Basic Setup</button>
+                    <button class="filter-btn" data-filter="changes">Changes</button>
+                    <button class="filter-btn" data-filter="branch">Branches</button>
+                    <button class="filter-btn" data-filter="remote">Remote</button>
+                    <button class="filter-btn" data-filter="history">History</button>
+                    <button class="filter-btn" data-filter="undo">Undo</button>
+                </div>
+
+                <div class="commands-grid" id="grid"></div>
+                <div class="empty-state" id="empty" style="display: none;">
+                    <div class="empty-state-icon">🔍</div>
+                    <h3>No Commands Found</h3>
+                </div>
+            </div>
+
+            <!-- ============ BEGINNER GUIDE TAB ============ -->
+            <div id="beginner" class="tab-content">
+                <h2 style="font-size: 28px; margin-bottom: 30px; color: #333;">🎓 Beginner's Guide to Git & GitHub</h2>
+
+                <div class="tip-box">
+                    <div style="font-weight: 700; margin-bottom: 8px;">What is Git?</div>
+                    <p>Git is a tool that tracks changes in your code. Think of it like a time machine for your project - you can save snapshots and go back anytime!</p>
+                </div>
+
+                <!-- Navigation for Beginner Guide -->
+                <div style="display: flex; gap: 10px; margin-bottom: 30px; flex-wrap: wrap;">
+                    <button class="filter-btn active" onclick="switchBeginnerTab(event, 'concepts')">Key Concepts</button>
+                    <button class="filter-btn" onclick="switchBeginnerTab(event, 'first-project')">First Project</button>
+                    <button class="filter-btn" onclick="switchBeginnerTab(event, 'pull-request')">Pull Requests</button>
+                    <button class="filter-btn" onclick="switchBeginnerTab(event, 'actions')">GitHub Actions</button>
+                </div>
+
+                <!-- ============ CONCEPTS ============ -->
+                <div id="concepts" class="beginner-tab-content active">
+
+                <h3 style="font-size: 20px; margin: 30px 0 20px; color: #333;">📝 Key Concepts</h3>
+
+                <div class="step-box info-step">
+                    <div class="step-header">
+                        <div class="step-number">1</div>
+                        <div class="step-title">Repository (Repo)</div>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-description">
+                            A folder that contains all your project files and the entire history of changes. Think of it as your project's memory!
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-box info-step">
+                    <div class="step-header">
+                        <div class="step-number">2</div>
+                        <div class="step-title">Commit</div>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-description">
+                            A snapshot of your code at a specific moment. When you make changes and want to save them, you 'commit' with a message explaining what changed.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-box info-step">
+                    <div class="step-header">
+                        <div class="step-number">3</div>
+                        <div class="step-title">Branch</div>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-description">
+                            A separate copy of your code where you can work independently. It's like having multiple versions so you can experiment safely!
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-box info-step">
+                    <div class="step-header">
+                        <div class="step-number">4</div>
+                        <div class="step-title">Pull Request (PR)</div>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-description">
+                            A way to ask for your code changes to be reviewed and merged into the main branch. It's how teams collaborate and review code before it goes live!
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-box info-step">
+                    <div class="step-header">
+                        <div class="step-number">5</div>
+                        <div class="step-title">GitHub Actions</div>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-description">
+                            Automated workflows that run when you push code or create a PR. Think of it as a robot that tests your code automatically!
+                        </div>
+                    </div>
+                </div>
+
+                <div class="separator" id="first-project"></div>
+
+                <h3 style="font-size: 20px; margin-bottom: 20px; color: #333;">🚀 Your First Project (Step-by-Step)</h3>
+
+                <div class="step-box">
+                    <div class="step-header">
+                        <div class="step-number">1</div>
+                        <div class="step-title">Create a Project on GitHub</div>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-description">
+                            • Go to <a href="https://github.com" target="_blank">github.com</a> and sign up (free!)<br>
+                            • Click "New repository"<br>
+                            • Give it a name like "my-first-project"<br>
+                            • Click "Create repository"
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-box">
+                    <div class="step-header">
+                        <div class="step-number">2</div>
+                        <div class="step-title">Get It On Your Computer</div>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-description">
+                            Copy the URL from GitHub and run this command:
+                        </div>
+                        <div class="code-block">
+                            git clone https://github.com/yourusername/my-first-project.git
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-box">
+                    <div class="step-header">
+                        <div class="step-number">3</div>
+                        <div class="step-title">Go Into Your Project Folder</div>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-description">
+                            Change directory to your project:
+                        </div>
+                        <div class="code-block">
+                            cd my-first-project
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-box">
+                    <div class="step-header">
+                        <div class="step-number">4</div>
+                        <div class="step-title">Create Your First File</div>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-description">
+                            Create a file called "hello.txt":
+                        </div>
+                        <div class="code-block">
+                            echo "Hello, Git!" > hello.txt
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-box">
+                    <div class="step-header">
+                        <div class="step-number">5</div>
+                        <div class="step-title">Stage Your Changes</div>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-description">
+                            Tell Git to track your new file:
+                        </div>
+                        <div class="code-block">
+                            git add .
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-box">
+                    <div class="step-header">
+                        <div class="step-number">6</div>
+                        <div class="step-title">Save Your Changes (Commit)</div>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-description">
+                            Create a snapshot with a message:
+                        </div>
+                        <div class="code-block">
+                            git commit -m "Added hello.txt file"
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-box">
+                    <div class="step-header">
+                        <div class="step-number">7</div>
+                        <div class="step-title">Upload to GitHub (Push)</div>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-description">
+                            Send your work to GitHub:
+                        </div>
+                        <div class="code-block">
+                            git push
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <div class="success-box-title">Congratulations! 🎉</div>
+                    <p>You've successfully created your first Git project and pushed it to GitHub! You're now a Git user! 🚀</p>
+                </div>
+
+                <!-- ============ PULL REQUESTS ============ -->
+                <div id="pull-request" class="beginner-tab-content" style="display: none;">
+                    <h2 style="font-size: 24px; margin-bottom: 25px; color: #333;">🔀 How to Create a Pull Request (PR)</h2>
+
+                    <div class="tip-box">
+                        <div style="font-weight: 700; margin-bottom: 8px;">What is a Pull Request?</div>
+                        <p>A PR is a way to propose changes to a project. You work on a branch, then ask for your changes to be reviewed and merged into the main branch. It's how teams collaborate safely!</p>
+                    </div>
+
+                    <h3 style="font-size: 20px; margin-bottom: 20px; color: #333;">Step-by-Step: Creating Your First PR</h3>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">1</div>
+                            <div class="step-title">Create a New Branch</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                First, create a branch for your feature:
+                            </div>
+                            <div class="code-block">
+                                git checkout -b fix/typo-in-readme
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <div class="info-box">
+                                <strong>Branch naming:</strong> Use prefixes like "fix/", "feature/", or "docs/"
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">2</div>
+                            <div class="step-title">Make Your Changes</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Edit your files, add new features, or fix bugs. For example, edit README.md:
+                            </div>
+                            <div class="code-block">
+                                nano README.md
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">3</div>
+                            <div class="step-title">Check What Changed</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                See your changes before committing:
+                            </div>
+                            <div class="code-block">
+                                git status
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">4</div>
+                            <div class="step-title">Stage and Commit Changes</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Stage all changes and create a commit:
+                            </div>
+                            <div class="code-block">
+                                git add .
+git commit -m "Fix: Corrected typo in README"
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <div class="info-box">
+                                <strong>Good commit message:</strong> Be specific about what you changed
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">5</div>
+                            <div class="step-title">Push Your Branch to GitHub</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Upload your branch to GitHub:
+                            </div>
+                            <div class="code-block">
+                                git push -u origin fix/typo-in-readme
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">6</div>
+                            <div class="step-title">Go to GitHub and Create PR</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                1. Go to your repository on GitHub<br>
+                                2. You'll see a yellow banner suggesting "Compare & pull request"<br>
+                                3. Click that button<br>
+                                4. Fill in the PR title and description<br>
+                                5. Click "Create pull request"
+                            </div>
+                            <div class="info-box">
+                                <strong>Good PR description includes:</strong> What you changed and why
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">7</div>
+                            <div class="step-title">Wait for Review</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Your code is now in a PR! Others can review it, leave comments, and suggest changes before it's merged.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">8</div>
+                            <div class="step-title">Merge Your PR</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Once approved, click "Merge pull request" on GitHub to merge your changes into main!
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="success-box">
+                        <div class="success-box-title">PR Created! 🎉</div>
+                        <p>You've successfully created and merged your first pull request! This is how professional teams work together!</p>
+                    </div>
+
+                    <h3 style="font-size: 20px; margin-top: 40px; margin-bottom: 20px; color: #333;">💡 PR Best Practices</h3>
+
+                    <div class="step-box info-step">
+                        <div class="step-header">
+                            <div class="step-number">1</div>
+                            <div class="step-title">Keep PRs Small</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Small PRs are easier to review. Don't try to change everything at once!
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box info-step">
+                        <div class="step-header">
+                            <div class="step-number">2</div>
+                            <div class="step-title">Write Clear Descriptions</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Explain why you're making changes, not just what you changed
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box info-step">
+                        <div class="step-header">
+                            <div class="step-number">3</div>
+                            <div class="step-title">Respond to Feedback</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                If reviewers suggest changes, make them! That's how you learn and improve.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============ GITHUB ACTIONS ============ -->
+                <div id="actions" class="beginner-tab-content" style="display: none;">
+                    <h2 style="font-size: 24px; margin-bottom: 25px; color: #333;">⚙️ GitHub Actions - Automate Your Workflow</h2>
+
+                    <div class="tip-box">
+                        <div style="font-weight: 700; margin-bottom: 8px;">What are GitHub Actions?</div>
+                        <p>GitHub Actions are automated robots that run tasks when you push code or create a PR. They can test your code, run checks, deploy to servers, and much more - all automatically!</p>
+                    </div>
+
+                    <h3 style="font-size: 20px; margin-bottom: 20px; color: #333;">🤖 Common GitHub Actions Uses</h3>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">1</div>
+                            <div class="step-title">Testing Code</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Automatically run tests every time you push code to make sure nothing breaks.
+                            </div>
+                            <div class="info-box">
+                                <strong>Example:</strong> "Run all tests and report if any fail"
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">2</div>
+                            <div class="step-title">Code Quality Checks</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Check code for style issues, security problems, and best practices.
+                            </div>
+                            <div class="info-box">
+                                <strong>Example:</strong> "Check if code follows style guidelines"
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">3</div>
+                            <div class="step-title">Automatic Deployment</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Deploy your code to a server automatically when you merge to main.
+                            </div>
+                            <div class="info-box">
+                                <strong>Example:</strong> "Deploy website to hosting when main branch updates"
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">4</div>
+                            <div class="step-title">Build Artifacts</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Automatically build and package your application.
+                            </div>
+                            <div class="info-box">
+                                <strong>Example:</strong> "Build Docker container for every push"
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 style="font-size: 20px; margin-top: 40px; margin-bottom: 20px; color: #333;">🚀 Create Your First GitHub Action</h3>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">1</div>
+                            <div class="step-title">Create Workflow File</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                In your repository, create a file at this path:
+                            </div>
+                            <div class="code-block">
+                                .github/workflows/test.yml
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <div class="info-box">
+                                GitHub automatically runs .yml files in the .github/workflows/ folder
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">2</div>
+                            <div class="step-title">Add Basic Workflow Code</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Copy this simple workflow that runs on every push:
+                            </div>
+                            <div class="code-block">
+                                name: My First Action
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Say Hello
+        run: echo "Hello from GitHub Actions!"
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">3</div>
+                            <div class="step-title">Commit and Push</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Commit this file and push to GitHub:
+                            </div>
+                            <div class="code-block">
+                                git add .github/workflows/test.yml
+git commit -m "Add GitHub Action workflow"
+git push
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">4</div>
+                            <div class="step-title">Watch It Run!</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                1. Go to your GitHub repository<br>
+                                2. Click "Actions" tab<br>
+                                3. You'll see your workflow running!<br>
+                                4. Click on it to see the output and logs
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="success-box">
+                        <div class="success-box-title">Your First Action! 🤖</div>
+                        <p>You've created your first GitHub Action! Now it's automated and runs every time you push code!</p>
+                    </div>
+
+                    <h3 style="font-size: 20px; margin-top: 40px; margin-bottom: 20px; color: #333;">📝 Real-World Example: Testing JavaScript Code</h3>
+
+                    <div class="step-box">
+                        <div class="step-header">
+                            <div class="step-number">Example</div>
+                            <div class="step-title">Automated Testing Workflow</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                This workflow automatically runs tests every time you push:
+                            </div>
+                            <div class="code-block">
+                                name: Run Tests
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - run: npm install
+      - run: npm test
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <div class="info-box">
+                                This runs npm test every time code is pushed. If tests fail, GitHub will show a red X on your commit!
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 style="font-size: 20px; margin-top: 40px; margin-bottom: 20px; color: #333;">💡 GitHub Actions Benefits</h3>
+
+                    <div class="step-box info-step">
+                        <div class="step-header">
+                            <div class="step-number">✓</div>
+                            <div class="step-title">Always Fresh Checks</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Your code is tested automatically. No need to remember to run tests!
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box info-step">
+                        <div class="step-header">
+                            <div class="step-number">✓</div>
+                            <div class="step-title">Catch Bugs Early</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Find issues before they reach production. GitHub shows test results on PRs!
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box info-step">
+                        <div class="step-header">
+                            <div class="step-number">✓</div>
+                            <div class="step-title">Save Time</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                Automate repetitive tasks. Deploy, test, and build without manual work!
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box info-step">
+                        <div class="step-header">
+                            <div class="step-number">✓</div>
+                            <div class="step-title">Professional Workflow</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-description">
+                                GitHub Actions is how professional teams ensure code quality!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                </div>
+
+        </div>
+
+        <div class="footer">
+            <p>🎓 <strong>Master Git & GitHub</strong> - Practice these commands regularly to become a Git expert!</p>
+            <div class="footer-links">
+                <a href="https://git-scm.com/doc" target="_blank">Official Git Docs</a>
+                <a href="https://github.com" target="_blank">GitHub</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const commands = [
+            { name: 'git config --global user.name "Name"', category: 'basic', description: 'Set your name for commits', usage: 'git config --global user.name "John Doe"', when: 'First time setup' },
+            { name: 'git config --global user.email "email@example.com"', category: 'basic', description: 'Set your email for commits', usage: 'git config --global user.email "john@example.com"', when: 'First time setup' },
+            { name: 'git init', category: 'basic', description: 'Create a new Git repository', usage: 'git init', when: 'Start a brand new project' },
+            { name: 'git clone <url>', category: 'basic', description: 'Copy a repository from GitHub', usage: 'git clone https://github.com/user/repo.git', when: 'Download an existing project' },
+            { name: 'git status', category: 'changes', description: 'See which files have changed', usage: 'git status', when: 'Check changes before committing' },
+            { name: 'git add .', category: 'changes', description: 'Stage all changed files', usage: 'git add .', when: 'Before committing all changes' },
+            { name: 'git add <file>', category: 'changes', description: 'Stage a specific file', usage: 'git add index.html', when: 'Stage specific files only' },
+            { name: 'git commit -m "message"', category: 'changes', description: 'Save your staged changes', usage: 'git commit -m "Fixed login bug"', when: 'After staging files' },
+            { name: 'git diff', category: 'changes', description: 'See what changed in files', usage: 'git diff', when: 'Review changes before staging' },
+            { name: 'git branch', category: 'branch', description: 'List all branches', usage: 'git branch', when: 'See available branches' },
+            { name: 'git branch <name>', category: 'branch', description: 'Create a new branch', usage: 'git branch feature/new-login', when: 'Start work on a feature' },
+            { name: 'git checkout <branch>', category: 'branch', description: 'Switch to a branch', usage: 'git checkout feature/new-login', when: 'Work on different branch' },
+            { name: 'git checkout -b <branch>', category: 'branch', description: 'Create and switch branches', usage: 'git checkout -b feature/profile', when: 'Quick branch creation' },
+            { name: 'git merge <branch>', category: 'branch', description: 'Combine branches', usage: 'git merge feature/new-login', when: 'After feature is done' },
+            { name: 'git branch -d <branch>', category: 'branch', description: 'Delete a branch', usage: 'git branch -d feature/old', when: 'Clean up merged branches' },
+            { name: 'git remote add origin <url>', category: 'remote', description: 'Connect to GitHub', usage: 'git remote add origin https://github.com/user/repo.git', when: 'Link local repo to GitHub' },
+            { name: 'git push', category: 'remote', description: 'Upload commits to GitHub', usage: 'git push', when: 'After committing' },
+            { name: 'git push origin <branch>', category: 'remote', description: 'Push specific branch', usage: 'git push origin feature/new-feature', when: 'Push new branches' },
+            { name: 'git pull', category: 'remote', description: 'Download latest changes', usage: 'git pull', when: 'Before starting work' },
+            { name: 'git fetch', category: 'remote', description: 'Fetch remote changes', usage: 'git fetch', when: 'See changes without merging' },
+            { name: 'git log', category: 'history', description: 'See commit history', usage: 'git log', when: 'Review project history' },
+            { name: 'git log --oneline', category: 'history', description: 'Short commit history', usage: 'git log --oneline', when: 'Quick overview' },
+            { name: 'git show <commit>', category: 'history', description: 'See commit details', usage: 'git show a1b2c3d', when: 'Review specific commit' },
+            { name: 'git blame <file>', category: 'history', description: 'See who changed each line', usage: 'git blame app.js', when: 'Find who made a change' },
+            { name: 'git restore <file>', category: 'undo', description: 'Discard file changes', usage: 'git restore style.css', when: 'Undo mistakes' },
+            { name: 'git reset HEAD~1', category: 'undo', description: 'Undo last commit', usage: 'git reset HEAD~1', when: 'Keep work, undo commit' },
+            { name: 'git reset --hard HEAD~1', category: 'undo', description: 'Delete last commit', usage: 'git reset --hard HEAD~1', when: 'Remove commit completely' },
+            { name: 'git revert <commit>', category: 'undo', description: 'Create undo commit', usage: 'git revert a1b2c3d', when: 'Safe undo of old commits' },
+            { name: 'git stash', category: 'undo', description: 'Save work temporarily', usage: 'git stash', when: 'Switch branches without committing' },
+            { name: 'git stash pop', category: 'undo', description: 'Restore stashed work', usage: 'git stash pop', when: 'Get back saved work' },
+        ];
+
+        function switchTab(e, tabName) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            e.target.classList.add('active');
+        }
+
+        function switchOS(e, osName) {
+            document.querySelectorAll('.os-content').forEach(c => c.classList.remove('active'));
+            document.getElementById(osName).classList.add('active');
+            document.querySelectorAll('.os-tab').forEach(t => t.classList.remove('active'));
+            e.target.classList.add('active');
+        }
+
+        function switchBeginnerTab(e, tabName) {
+            document.querySelectorAll('.beginner-tab-content').forEach(t => t.style.display = 'none');
+            document.getElementById(tabName).style.display = 'block';
+            document.querySelectorAll('.beginner-tab-content').forEach(t => t.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            
+            const buttons = e.target.parentElement.querySelectorAll('.filter-btn');
+            buttons.forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+        }
+
+        function copyCode(btn) {
+            const code = btn.parentElement.textContent.replace('Copy', '').trim();
+            navigator.clipboard.writeText(code).then(() => {
+                const orig = btn.textContent;
+                btn.textContent = '✓ Copied!';
+                setTimeout(() => btn.textContent = orig, 2000);
+            });
+        }
+
+        const grid = document.getElementById('grid');
+        const search = document.getElementById('searchInput');
+        const filters = document.querySelectorAll('.filter-btn');
+        let currentFilter = 'all';
+
+        function render(filtered) {
+            grid.innerHTML = '';
+            if (filtered.length === 0) {
+                document.getElementById('empty').style.display = 'block';
+                document.getElementById('showing').textContent = '0';
+                return;
+            }
+            document.getElementById('empty').style.display = 'none';
+            document.getElementById('showing').textContent = filtered.length;
+
+            filtered.forEach(cmd => {
+                const card = document.createElement('div');
+                card.className = 'command-card';
+                card.innerHTML = `
+                    <div class="cmd-category">${cmd.category}</div>
+                    <div class="cmd-name">$ ${cmd.name}</div>
+                    <div class="cmd-description">${cmd.description}</div>
+                    <div class="cmd-usage">$ ${cmd.usage}</div>
+                    <div class="cmd-when"><div class="cmd-when-title">When to use</div>${cmd.when}</div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filter() {
+            let result = commands;
+            if (currentFilter !== 'all') result = result.filter(c => c.category === currentFilter);
+            const q = search.value.toLowerCase();
+            if (q) result = result.filter(c => c.name.includes(q) || c.description.includes(q));
+            render(result);
+        }
+
+        filters.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filters.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.dataset.filter;
+                filter();
+            });
+        });
+
+        search.addEventListener('input', filter);
+        render(commands);
+    </script>
+</body>
+</html>
