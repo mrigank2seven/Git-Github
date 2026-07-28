@@ -26,6 +26,7 @@ Replace the single `index.html` with an Eleventy-built static site: content auth
 - **Navigation model:** Real multi-page navigation — each section gets its own URL and a real page load (not client-side tab-switching / SPA routing). This is what actually solves the "one giant page" scaling problem as content grows in sub-project B.
 - **Hosting/deployment:** Out of scope for this pass. Build locally only; hosting pipeline (GitHub Pages, Netlify, etc.) is a follow-up decision made separately.
 - **Testing:** No automated test framework introduced. The project has none today and this is a pure restructuring — adding a test suite here would be scope creep. Verification is a manual browser pass (see below).
+- **Home page:** The original site has no distinct landing content — the hero banner is shared chrome (now part of `base.html`), and "Installation" was simply the default active tab. `src/index.html` *is* the Installation content (front matter `permalink: index.html`); there is no separate `installation.html` and no `/installation/` URL. The nav's "Installation" link points to `/`. This preserves exact behavioral parity (today's default view stays the default view) without inventing new landing content, which would violate the "no content changes" goal above.
 
 ## Directory Structure
 
@@ -42,14 +43,15 @@ Git-Github/
 │   │   ├── css/styles.css        # extracted from today's single <style> block
 │   │   └── js/
 │   │       ├── theme.js          # dark/light toggle (shared, all pages)
-│   │       ├── commands.js       # search/filter logic (commands page only)
-│   │       └── visual-guide.js   # SVG branch-diagram interactions (that page only)
-│   ├── index.html                # hero/landing
-│   ├── installation.html
+│   │       ├── copy-code.js      # "Copy" button on code blocks (shared, all pages)
+│   │       ├── os-tabs.js        # Windows/Mac/Linux install sub-tabs (index.html only)
+│   │       ├── command-search.js # search/filter logic (commands page only)
+│   │       └── visual-guide.js   # SVG branch-diagram + VCS-basics step interactions (that page only)
+│   ├── index.html                # Installation content (see Home page decision below); site root "/"
 │   ├── commands.html
 │   ├── visual-guide.html
 │   └── guide/
-│       ├── index.html            # Beginner's Guide overview
+│       ├── index.html            # Beginner's Guide overview (Key Concepts)
 │       ├── first-project.html
 │       ├── pull-requests.html
 │       └── github-actions.html
@@ -62,9 +64,10 @@ Each page pulls in only the JS/CSS it actually needs (e.g. `visual-guide.js` is 
 ## Data Flow
 
 - Every `src/**/*.html` page declares front matter (`layout: base.html`, `title`, `navActive`) and Eleventy wraps its body in `_includes/base.html`.
-- The command-reference data (`_data/commands.js`) is available to any page via Eleventy's data cascade. `commands.html` renders the initial list server-side at build time (so the page has real content with JS disabled), and `assets/js/commands.js` handles client-side search/filter on top of it — same behavior as today, just backed by a real data file instead of an inline array in a `<script>` tag.
-- The Beginner's Guide, currently three walkthroughs switched via tabs within one section, becomes four real pages (an overview index page plus one page per walkthrough) linked from shared nav.
-- The Visual Guide (SVG branch diagram) becomes its own page with its own dedicated interaction script, rather than one section among many sharing a global script scope.
+- The command-reference data (`_data/commands.js`) is available to any page via Eleventy's data cascade. `commands.html` renders the initial list server-side at build time (so the page has real content with JS disabled), and `assets/js/command-search.js` handles client-side search/filter on top of it — same behavior as today, just backed by a real data file instead of an inline array in a `<script>` tag.
+- The Beginner's Guide, currently three walkthroughs switched via tabs within one section (plus a "Key Concepts" first tab), becomes four real pages (`guide/index.html` = Key Concepts overview, plus one page per walkthrough) linked from shared nav and from `guide/index.html`.
+- The Visual Guide (SVG branch diagram + VCS-basics step-through) becomes its own page with its own dedicated interaction script (`visual-guide.js`), rather than one section among many sharing a global script scope.
+- Existing JS functions map onto the new structure as follows: `switchTab` (top-level nav-tabs) and `switchBeginnerTab` (beginner sub-tabs) are **removed** — real multi-page links replace both. `switchOS` (Windows/Mac/Linux install sub-tabs) is **kept**, moved into `os-tabs.js`, loaded only on `index.html`. `copyCode` is **kept**, moved into `copy-code.js`, loaded on every page since code blocks with copy buttons appear on several pages. `render`/`filter` + the `commands` array become `command-search.js` + `_data/commands.js`. `renderVcsStep`/`vcsStep`/`vcsReset`/`vcsSteps` and `renderBranchStep`/`branchStep`/`branchReset`/`branchSteps` all move into `visual-guide.js` verbatim.
 
 ## Build Workflow
 
