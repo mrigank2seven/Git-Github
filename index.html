@@ -683,6 +683,189 @@
             animation: fadeIn 0.3s ease;
         }
 
+        /* ======== VISUAL GUIDE ======== */
+        .vg-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px 22px;
+            background: var(--surface-alt);
+            border: 2px solid var(--border-light);
+            border-radius: 12px;
+            padding: 14px 18px;
+            margin-bottom: 30px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .vg-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 4px;
+        }
+        .vg-dot-main { background: var(--accent-1); }
+        .vg-dot-feature { background: var(--accent-pink); }
+
+        .vg-stack {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            margin-bottom: 20px;
+        }
+
+        .vg-box {
+            width: 100%;
+            max-width: 420px;
+            background: var(--surface);
+            border: 2px solid var(--border-light);
+            border-radius: 14px;
+            padding: 16px 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+        }
+
+        .vg-box-icon { font-size: 26px; margin-bottom: 4px; }
+        .vg-box-title { font-weight: 700; color: var(--text-primary); font-size: 15px; }
+        .vg-box-title small { font-weight: 400; color: var(--text-muted); }
+
+        .vg-file {
+            margin-top: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .vg-badge {
+            display: inline-block;
+            margin-left: 6px;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: var(--border-light);
+            color: var(--text-muted);
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+        .vg-badge.vg-modified { background: rgba(243, 156, 18, 0.18); color: #f39c12; }
+        .vg-badge.vg-staged { background: rgba(102, 126, 234, 0.18); color: var(--accent-1); }
+        .vg-badge.vg-empty { background: var(--border-light); color: var(--text-muted); }
+        .vg-badge.vg-clean { background: rgba(39, 174, 96, 0.18); color: #27ae60; }
+
+        .vg-arrow {
+            font-size: 20px;
+            color: var(--border-color);
+            line-height: 1.2;
+            transition: color 0.3s ease, transform 0.3s var(--spring);
+        }
+        .vg-arrow-label {
+            font-size: 11px;
+            font-family: 'Courier New', monospace;
+            display: block;
+            color: var(--text-muted);
+        }
+        .vg-arrow.vg-arrow-active {
+            color: var(--accent-pink);
+            transform: scale(1.3);
+        }
+        .vg-arrow.vg-arrow-active .vg-arrow-label { color: var(--accent-pink); font-weight: 700; }
+
+        .vg-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 20px 0 10px;
+        }
+        .vg-step-counter {
+            font-weight: 700;
+            color: var(--text-muted);
+            font-size: 13px;
+            margin-right: auto;
+        }
+
+        .vg-graph-wrap {
+            background: var(--surface-alt);
+            border-radius: 14px;
+            padding: 20px 10px;
+            margin-bottom: 10px;
+            overflow-x: auto;
+            transition: background-color 0.3s ease;
+        }
+        .vg-graph { width: 100%; min-width: 460px; height: auto; display: block; }
+
+        .vg-edge {
+            stroke: var(--border-color);
+            stroke-width: 3;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .vg-edge.vg-visible { opacity: 1; }
+        .vg-edge.vg-edge-feature { stroke: var(--accent-pink); }
+        .vg-edge.vg-edge-main { stroke: var(--accent-1); }
+
+        .vg-node-inner {
+            opacity: 0;
+            transform-origin: center;
+            transition: opacity 0.3s ease;
+        }
+        .vg-node.vg-visible .vg-node-inner { opacity: 1; animation: vgPop 0.4s var(--spring); }
+
+        @keyframes vgPop {
+            0% { opacity: 0; transform: scale(0.3); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .vg-node circle { stroke: white; stroke-width: 2; }
+        .vg-node-main { fill: var(--accent-1); }
+        .vg-node-feature { fill: var(--accent-pink); }
+        .vg-node-merge { fill: #30cfd0; }
+        .vg-node text {
+            fill: white;
+            font-size: 12px;
+            font-weight: 700;
+            text-anchor: middle;
+            font-family: 'Courier New', monospace;
+        }
+
+        .vg-pointer { transition: transform 0.5s var(--spring); }
+        .vg-pointer-main polygon { fill: var(--accent-1); }
+        .vg-pointer-feature polygon { fill: var(--accent-pink); }
+        .vg-pointer text {
+            text-anchor: middle;
+            font-size: 12px;
+            font-weight: 700;
+            fill: var(--text-primary);
+        }
+
+        .vg-head { transition: transform 0.5s var(--spring); }
+        .vg-head text {
+            text-anchor: middle;
+            font-size: 13px;
+            font-weight: 700;
+            fill: var(--accent-pink);
+        }
+
+        .vg-details {
+            background: var(--surface);
+            border: 2px solid var(--border-light);
+            border-radius: 12px;
+            padding: 14px 18px;
+            margin-bottom: 20px;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .vg-details summary {
+            cursor: pointer;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .vg-conflict { margin-top: 12px; color: var(--text-secondary); line-height: 1.6; font-size: 14px; }
+        .vg-conflict code { background: var(--surface-raised); padding: 2px 6px; border-radius: 4px; }
+
         /* section headings use inline color:#333 in the markup, which beats the stylesheet without !important */
         .content h2[style*="#333"],
         .content h3[style*="#333"] {
@@ -716,6 +899,7 @@
             <button class="nav-tab active" onclick="switchTab(event, 'installation')">📥 Installation</button>
             <button class="nav-tab" onclick="switchTab(event, 'commands')">⚡ Commands</button>
             <button class="nav-tab" onclick="switchTab(event, 'beginner')">🎓 Beginner Guide</button>
+            <button class="nav-tab" onclick="switchTab(event, 'visual-guide')">🌳 Visual Guide</button>
         </div>
 
         <div class="content">
@@ -2127,6 +2311,120 @@ jobs:
 
         </div>
 
+            <!-- ============ VISUAL GUIDE TAB ============ -->
+            <div id="visual-guide" class="tab-content">
+                <h2 style="font-size: 28px; margin-bottom: 20px; color: #333;">🌳 Visual Guide: How Git Actually Works</h2>
+
+                <div class="vg-legend">
+                    <span><span class="vg-dot vg-dot-main"></span>main branch</span>
+                    <span><span class="vg-dot vg-dot-feature"></span>feature branch</span>
+                    <span>⬤ commit</span>
+                    <span>▲ branch pointer</span>
+                    <span>🎯 HEAD</span>
+                    <span>📄 file</span>
+                    <span>📦 staging</span>
+                </div>
+
+                <!-- ============ VCS BASICS ============ -->
+                <h3 style="font-size: 20px; margin: 30px 0 20px; color: #333;">📝 How Version Control Works</h3>
+
+                <div class="vg-stack">
+                    <div class="vg-box">
+                        <div class="vg-box-icon">📁</div>
+                        <div class="vg-box-title">Files on Disk</div>
+                    </div>
+                    <div class="vg-arrow" id="vg-arrow-1">↓</div>
+                    <div class="vg-box">
+                        <div class="vg-box-icon">📝</div>
+                        <div class="vg-box-title">Working Directory</div>
+                        <div class="vg-file">📄 app.py <span class="vg-badge" id="vg-working-badge">Clean</span></div>
+                    </div>
+                    <div class="vg-arrow" id="vg-arrow-2">↓<span class="vg-arrow-label">git add</span></div>
+                    <div class="vg-box">
+                        <div class="vg-box-icon">📦</div>
+                        <div class="vg-box-title">Staging Area <small>(.git/index)</small></div>
+                        <div class="vg-file">📄 app.py <span class="vg-badge" id="vg-staging-badge">Empty</span></div>
+                    </div>
+                    <div class="vg-arrow" id="vg-arrow-3">↓<span class="vg-arrow-label">git commit</span></div>
+                    <div class="vg-box">
+                        <div class="vg-box-icon">🗂</div>
+                        <div class="vg-box-title">Local Repository <small>(.git)</small></div>
+                        <div class="vg-file" id="vg-repo-commit">Previous commits only</div>
+                    </div>
+                </div>
+
+                <div class="vg-controls">
+                    <span class="vg-step-counter">Step <span id="vg-vcs-step">1</span> / 5</span>
+                    <button class="filter-btn" onclick="vcsStep(-1)">◀ Prev</button>
+                    <button class="filter-btn" onclick="vcsReset()">Reset</button>
+                    <button class="filter-btn" onclick="vcsStep(1)">Next ▶</button>
+                </div>
+
+                <div class="step-description" id="vg-vcs-caption" style="margin: 16px 0;"></div>
+                <div class="code-block" id="vg-vcs-command" style="display:none;"></div>
+
+                <div class="tip-box">
+                    <div style="font-weight: 700; margin-bottom: 8px;">💡 Key Idea</div>
+                    <p>Git records snapshots. Files move from <strong>Working Directory → Staging Area → Repository</strong> — and committing never deletes your working copy, it just saves a snapshot.</p>
+                </div>
+
+                <div class="separator"></div>
+
+                <!-- ============ BRANCHING ============ -->
+                <h3 style="font-size: 20px; margin-bottom: 20px; color: #333;">🌳 How Git Branching Works</h3>
+
+                <div class="vg-graph-wrap">
+                    <svg viewBox="0 0 460 220" class="vg-graph" id="vg-branch-svg">
+                        <line x1="50" y1="170" x2="110" y2="170" class="vg-edge" data-edge="AB"/>
+                        <line x1="110" y1="170" x2="170" y2="170" class="vg-edge" data-edge="BC"/>
+                        <line x1="170" y1="170" x2="230" y2="90" class="vg-edge vg-edge-feature" data-edge="CD"/>
+                        <line x1="170" y1="170" x2="290" y2="170" class="vg-edge vg-edge-main" data-edge="CF"/>
+                        <line x1="230" y1="90" x2="350" y2="90" class="vg-edge vg-edge-feature" data-edge="DE"/>
+                        <line x1="290" y1="170" x2="410" y2="170" class="vg-edge vg-edge-main" data-edge="FM"/>
+                        <line x1="350" y1="90" x2="410" y2="170" class="vg-edge vg-edge-feature" data-edge="EM"/>
+
+                        <g class="vg-node" data-node="A" transform="translate(50,170)"><g class="vg-node-inner"><circle r="16" class="vg-node-main"/><text y="5">A</text><title>Commit A — snapshot of: app.py, index.html, README.md</title></g></g>
+                        <g class="vg-node" data-node="B" transform="translate(110,170)"><g class="vg-node-inner"><circle r="16" class="vg-node-main"/><text y="5">B</text><title>Commit B — snapshot of: app.py, index.html, README.md</title></g></g>
+                        <g class="vg-node" data-node="C" transform="translate(170,170)"><g class="vg-node-inner"><circle r="16" class="vg-node-main"/><text y="5">C</text><title>Commit C — snapshot of: app.py, index.html, README.md</title></g></g>
+                        <g class="vg-node" data-node="D" transform="translate(230,90)"><g class="vg-node-inner"><circle r="16" class="vg-node-feature"/><text y="5">D</text><title>Commit D — snapshot of: app.py, index.html, README.md, feature.py</title></g></g>
+                        <g class="vg-node" data-node="F" transform="translate(290,170)"><g class="vg-node-inner"><circle r="16" class="vg-node-main"/><text y="5">F</text><title>Commit F — snapshot of: app.py, index.html, README.md</title></g></g>
+                        <g class="vg-node" data-node="E" transform="translate(350,90)"><g class="vg-node-inner"><circle r="16" class="vg-node-feature"/><text y="5">E</text><title>Commit E — snapshot of: app.py, index.html, README.md, feature.py</title></g></g>
+                        <g class="vg-node" data-node="M" transform="translate(410,170)"><g class="vg-node-inner"><circle r="18" class="vg-node-merge"/><text y="5">M</text><title>Merge commit M — combines main and feature histories</title></g></g>
+
+                        <g class="vg-pointer vg-pointer-main" id="vg-pointer-main"><polygon points="-7,-30 7,-30 0,-16"/><text y="-36">main</text></g>
+                        <g class="vg-pointer vg-pointer-feature" id="vg-pointer-feature"><polygon points="-7,-30 7,-30 0,-16"/><text y="-36">feature</text></g>
+                        <g class="vg-head" id="vg-head"><text text-anchor="middle" y="0">🎯 HEAD</text></g>
+                    </svg>
+                </div>
+
+                <div class="vg-controls">
+                    <span class="vg-step-counter">Step <span id="vg-branch-step">1</span> / 7</span>
+                    <button class="filter-btn" onclick="branchStep(-1)">◀ Prev</button>
+                    <button class="filter-btn" onclick="branchReset()">Reset</button>
+                    <button class="filter-btn" onclick="branchStep(1)">Next ▶</button>
+                </div>
+
+                <div class="step-description" id="vg-branch-caption" style="margin: 16px 0;"></div>
+                <div class="code-block" id="vg-branch-command" style="display:none;"></div>
+
+                <div class="info-box">
+                    <strong>Note:</strong> This example creates a merge commit because both branches changed. If only <code>feature</code> had new commits, Git could perform a <strong>Fast-Forward</strong> merge instead — just moving the <code>main</code> pointer forward, no merge commit needed.
+                </div>
+
+                <details class="vg-details">
+                    <summary>⚠️ What if there's a conflict?</summary>
+                    <div class="vg-conflict">
+                        <p><strong>main</strong> commit F changes <code>app.py</code> line 10, and <strong>feature</strong> commit E also changes <code>app.py</code> line 10.</p>
+                        <p>⚠️ <strong>Conflict!</strong> Both branches modified the same part of the file, so Git needs your help deciding which change to keep.</p>
+                    </div>
+                </details>
+
+                <div class="tip-box">
+                    <div style="font-weight: 700; margin-bottom: 8px;">💡 Key Idea</div>
+                    <p>Branches are lightweight pointers to commits — not copies of your files. <strong>Merging</strong> combines two lines of history back together.</p>
+                </div>
+            </div>
+
         <div class="footer">
             <p>🎓 <strong>Master Git & GitHub</strong> - Practice these commands regularly to become a Git expert!</p>
             <div class="footer-links">
@@ -2293,6 +2591,85 @@ jobs:
         search.addEventListener('input', filter);
         render(commands);
         applyThemeIcon();
+
+        const vcsSteps = [
+            { working: 'Modified', staging: 'Empty', repo: 'Previous commits only', activeArrow: null, caption: "You've edited app.py — Git marks your Working Directory as Modified.", command: null },
+            { working: 'Modified', staging: 'Empty', repo: 'Previous commits only', activeArrow: 2, caption: 'git add copies the current snapshot of app.py into the Staging Area (the index).', command: 'git add app.py' },
+            { working: 'Modified', staging: 'Staged', repo: 'Previous commits only', activeArrow: null, caption: 'app.py is now Staged — ready to be included in the next commit.', command: null },
+            { working: 'Modified', staging: 'Staged', repo: 'Previous commits only', activeArrow: 3, caption: 'git commit takes everything in the Staging Area and saves it as a permanent snapshot inside .git.', command: 'git commit -m "Update app.py"' },
+            { working: 'Clean', staging: 'Empty', repo: 'Commit c4a1b2 ✓ Saved', activeArrow: null, caption: "Repository updated with a new commit. Your Working Directory is Clean again — commit didn't delete anything, it just saved a snapshot.", command: null },
+        ];
+        let vcsIndex = 0;
+
+        function renderVcsStep() {
+            const s = vcsSteps[vcsIndex];
+            const workingBadge = document.getElementById('vg-working-badge');
+            const stagingBadge = document.getElementById('vg-staging-badge');
+            workingBadge.textContent = s.working;
+            workingBadge.className = 'vg-badge vg-' + s.working.toLowerCase();
+            stagingBadge.textContent = s.staging;
+            stagingBadge.className = 'vg-badge vg-' + s.staging.toLowerCase();
+            document.getElementById('vg-repo-commit').textContent = s.repo;
+
+            [2, 3].forEach(n => document.getElementById('vg-arrow-' + n).classList.remove('vg-arrow-active'));
+            if (s.activeArrow) document.getElementById('vg-arrow-' + s.activeArrow).classList.add('vg-arrow-active');
+
+            document.getElementById('vg-vcs-step').textContent = vcsIndex + 1;
+            document.getElementById('vg-vcs-caption').textContent = s.caption;
+            const cmdEl = document.getElementById('vg-vcs-command');
+            if (s.command) { cmdEl.textContent = '$ ' + s.command; cmdEl.style.display = 'block'; }
+            else { cmdEl.style.display = 'none'; }
+        }
+
+        function vcsStep(delta) {
+            vcsIndex = Math.max(0, Math.min(vcsSteps.length - 1, vcsIndex + delta));
+            renderVcsStep();
+        }
+        function vcsReset() { vcsIndex = 0; renderVcsStep(); }
+
+        const branchSteps = [
+            { nodes: ['A', 'B', 'C'], edges: ['AB', 'BC'], main: { x: 170, y: 170 }, feature: null, head: 'main', caption: 'main has three commits: A, B, C.', command: null },
+            { nodes: ['A', 'B', 'C'], edges: ['AB', 'BC'], main: { x: 170, y: 170 }, feature: { x: 192, y: 170 }, head: 'feature', caption: 'git checkout -b feature creates a new pointer at the same commit as main, and moves HEAD onto it.', command: 'git checkout -b feature' },
+            { nodes: ['A', 'B', 'C', 'D'], edges: ['AB', 'BC', 'CD'], main: { x: 170, y: 170 }, feature: { x: 230, y: 90 }, head: 'feature', caption: 'Committing on feature moves the feature pointer forward — main is untouched.', command: 'git commit -m "Add feature part 1"' },
+            { nodes: ['A', 'B', 'C', 'D'], edges: ['AB', 'BC', 'CD'], main: { x: 170, y: 170 }, feature: { x: 230, y: 90 }, head: 'main', caption: 'Switching back to main moves HEAD, but doesn\'t change any commits — main and feature still point where they did.', command: 'git checkout main' },
+            { nodes: ['A', 'B', 'C', 'D', 'F'], edges: ['AB', 'BC', 'CD', 'CF'], main: { x: 290, y: 170 }, feature: { x: 230, y: 90 }, head: 'main', caption: 'main gets a new commit too — main and feature have now diverged from their shared commit C.', command: 'git commit -m "Fix typo on main"' },
+            { nodes: ['A', 'B', 'C', 'D', 'F', 'E'], edges: ['AB', 'BC', 'CD', 'CF', 'DE'], main: { x: 290, y: 170 }, feature: { x: 350, y: 90 }, head: 'feature', caption: 'Back on feature, another commit lands — feature is now two commits ahead of C.', command: 'git checkout feature\ngit commit -m "Add feature part 2"' },
+            { nodes: ['A', 'B', 'C', 'D', 'F', 'E', 'M'], edges: ['AB', 'BC', 'CD', 'CF', 'DE', 'FM', 'EM'], main: { x: 410, y: 170 }, feature: { x: 350, y: 90 }, head: 'main', caption: 'git merge feature creates a merge commit M that joins both histories back together.', command: 'git merge feature' },
+        ];
+        let branchIndex = 0;
+
+        function renderBranchStep() {
+            const s = branchSteps[branchIndex];
+            document.querySelectorAll('.vg-node').forEach(n => n.classList.toggle('vg-visible', s.nodes.includes(n.dataset.node)));
+            document.querySelectorAll('.vg-edge').forEach(e => e.classList.toggle('vg-visible', s.edges.includes(e.dataset.edge)));
+
+            document.getElementById('vg-pointer-main').setAttribute('transform', `translate(${s.main.x}, ${s.main.y})`);
+            const featurePointer = document.getElementById('vg-pointer-feature');
+            if (s.feature) {
+                featurePointer.style.display = '';
+                featurePointer.setAttribute('transform', `translate(${s.feature.x}, ${s.feature.y})`);
+            } else {
+                featurePointer.style.display = 'none';
+            }
+
+            const headPos = s.head === 'main' ? s.main : s.feature;
+            document.getElementById('vg-head').setAttribute('transform', `translate(${headPos.x}, ${headPos.y - 54})`);
+
+            document.getElementById('vg-branch-step').textContent = branchIndex + 1;
+            document.getElementById('vg-branch-caption').textContent = s.caption;
+            const cmdEl = document.getElementById('vg-branch-command');
+            if (s.command) { cmdEl.textContent = '$ ' + s.command; cmdEl.style.display = 'block'; }
+            else { cmdEl.style.display = 'none'; }
+        }
+
+        function branchStep(delta) {
+            branchIndex = Math.max(0, Math.min(branchSteps.length - 1, branchIndex + delta));
+            renderBranchStep();
+        }
+        function branchReset() { branchIndex = 0; renderBranchStep(); }
+
+        renderVcsStep();
+        renderBranchStep();
     </script>
 </body>
 </html>
