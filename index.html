@@ -157,6 +157,7 @@
 
         .nav-tabs {
             display: flex;
+            justify-content: center;
             background: var(--surface-alt);
             border-bottom: 2px solid var(--border-color);
             overflow-x: auto;
@@ -2326,6 +2327,16 @@ jobs:
                 </div>
 
                 <!-- ============ VCS BASICS ============ -->
+                <div class="tip-box">
+                    <div style="font-weight: 700; margin-bottom: 8px;">❓ Why Do We Need Version Control?</div>
+                    <p>
+                        • No more <code>final_v2_FINAL.py</code> — every change is a tracked snapshot, not a guess<br>
+                        • Undo mistakes safely by reverting to any earlier snapshot<br>
+                        • Multiple people can work on the same project without overwriting each other<br>
+                        • See exactly what changed, when, and who changed it
+                    </p>
+                </div>
+
                 <h3 style="font-size: 20px; margin: 30px 0 20px; color: #333;">📝 How Version Control Works</h3>
 
                 <div class="vg-stack">
@@ -2351,10 +2362,16 @@ jobs:
                         <div class="vg-box-title">Local Repository <small>(.git)</small></div>
                         <div class="vg-file" id="vg-repo-commit">Previous commits only</div>
                     </div>
+                    <div class="vg-arrow" id="vg-arrow-4">↓<span class="vg-arrow-label">git push</span></div>
+                    <div class="vg-box">
+                        <div class="vg-box-icon">☁️</div>
+                        <div class="vg-box-title">Remote Repository <small>(GitHub)</small></div>
+                        <div class="vg-file" id="vg-remote-commit">Not pushed yet</div>
+                    </div>
                 </div>
 
                 <div class="vg-controls">
-                    <span class="vg-step-counter">Step <span id="vg-vcs-step">1</span> / 5</span>
+                    <span class="vg-step-counter">Step <span id="vg-vcs-step">1</span> / 6</span>
                     <button class="filter-btn" onclick="vcsStep(-1)">◀ Prev</button>
                     <button class="filter-btn" onclick="vcsReset()">Reset</button>
                     <button class="filter-btn" onclick="vcsStep(1)">Next ▶</button>
@@ -2593,11 +2610,12 @@ jobs:
         applyThemeIcon();
 
         const vcsSteps = [
-            { working: 'Modified', staging: 'Empty', repo: 'Previous commits only', activeArrow: null, caption: "You've edited app.py — Git marks your Working Directory as Modified.", command: null },
-            { working: 'Modified', staging: 'Empty', repo: 'Previous commits only', activeArrow: 2, caption: 'git add copies the current snapshot of app.py into the Staging Area (the index).', command: 'git add app.py' },
-            { working: 'Modified', staging: 'Staged', repo: 'Previous commits only', activeArrow: null, caption: 'app.py is now Staged — ready to be included in the next commit.', command: null },
-            { working: 'Modified', staging: 'Staged', repo: 'Previous commits only', activeArrow: 3, caption: 'git commit takes everything in the Staging Area and saves it as a permanent snapshot inside .git.', command: 'git commit -m "Update app.py"' },
-            { working: 'Clean', staging: 'Empty', repo: 'Commit c4a1b2 ✓ Saved', activeArrow: null, caption: "Repository updated with a new commit. Your Working Directory is Clean again — commit didn't delete anything, it just saved a snapshot.", command: null },
+            { working: 'Modified', staging: 'Empty', repo: 'Previous commits only', remote: 'Not pushed yet', activeArrow: null, caption: "You've edited app.py — Git marks your Working Directory as Modified.", command: null },
+            { working: 'Modified', staging: 'Empty', repo: 'Previous commits only', remote: 'Not pushed yet', activeArrow: 2, caption: 'git add copies the current snapshot of app.py into the Staging Area (the index).', command: 'git add app.py' },
+            { working: 'Modified', staging: 'Staged', repo: 'Previous commits only', remote: 'Not pushed yet', activeArrow: null, caption: 'app.py is now Staged — ready to be included in the next commit.', command: null },
+            { working: 'Modified', staging: 'Staged', repo: 'Previous commits only', remote: 'Not pushed yet', activeArrow: 3, caption: 'git commit takes everything in the Staging Area and saves it as a permanent snapshot inside .git.', command: 'git commit -m "Update app.py"' },
+            { working: 'Clean', staging: 'Empty', repo: 'Commit c4a1b2 ✓ Saved', remote: 'Not pushed yet', activeArrow: null, caption: "Repository updated with a new commit. Your Working Directory is Clean again — commit didn't delete anything, it just saved a snapshot.", command: null },
+            { working: 'Clean', staging: 'Empty', repo: 'Commit c4a1b2 ✓ Saved', remote: 'Commit c4a1b2 ✓ Pushed', activeArrow: 4, caption: 'git push uploads your local commits to the remote repository on GitHub, so others can see and pull them.', command: 'git push' },
         ];
         let vcsIndex = 0;
 
@@ -2610,8 +2628,9 @@ jobs:
             stagingBadge.textContent = s.staging;
             stagingBadge.className = 'vg-badge vg-' + s.staging.toLowerCase();
             document.getElementById('vg-repo-commit').textContent = s.repo;
+            document.getElementById('vg-remote-commit').textContent = s.remote;
 
-            [2, 3].forEach(n => document.getElementById('vg-arrow-' + n).classList.remove('vg-arrow-active'));
+            [2, 3, 4].forEach(n => document.getElementById('vg-arrow-' + n).classList.remove('vg-arrow-active'));
             if (s.activeArrow) document.getElementById('vg-arrow-' + s.activeArrow).classList.add('vg-arrow-active');
 
             document.getElementById('vg-vcs-step').textContent = vcsIndex + 1;
