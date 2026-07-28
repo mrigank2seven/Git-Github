@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Git Complete Guide - Installation & Commands</title>
+    <title>Git Complete Guide</title>
     <style>
         * {
             margin: 0;
@@ -13,25 +13,103 @@
 
         html { scroll-behavior: smooth; }
 
+        :root {
+            --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --hero-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 45%, #f093fb 100%);
+            --bg-gradient: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #4facfe);
+            --accent-1: #667eea;
+            --accent-2: #764ba2;
+            --accent-pink: #f093fb;
+            --accent-blue: #4facfe;
+            --surface: #ffffff;
+            --surface-alt: #f8f9fa;
+            --surface-raised: #f5f7ff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #555555;
+            --text-muted: #666666;
+            --text-faint: #999999;
+            --border-color: #e0e0e0;
+            --border-light: #f0f0f0;
+            --glow-shadow: rgba(102, 126, 234, 0.25);
+            --code-bg: #1a1a1a;
+            --code-text: #e6e6e6;
+        }
+
+        [data-theme="dark"] {
+            --surface: #1e1e2e;
+            --surface-alt: #16161f;
+            --surface-raised: #23233a;
+            --text-primary: #f2f2f8;
+            --text-secondary: #c6c6d8;
+            --text-muted: #a3a3ba;
+            --text-faint: #82829a;
+            --border-color: #34344a;
+            --border-light: #2a2a3d;
+            --glow-shadow: rgba(240, 147, 251, 0.25);
+            --code-bg: #10101a;
+            --code-text: #d8d8ec;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme="light"]) {
+                --surface: #1e1e2e;
+                --surface-alt: #16161f;
+                --surface-raised: #23233a;
+                --text-primary: #f2f2f8;
+                --text-secondary: #c6c6d8;
+                --text-muted: #a3a3ba;
+                --text-faint: #82829a;
+                --border-color: #34344a;
+                --border-light: #2a2a3d;
+                --glow-shadow: rgba(240, 147, 251, 0.25);
+                --code-bg: #10101a;
+                --code-text: #d8d8ec;
+            }
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--bg-gradient);
+            background-size: 400% 400%;
+            animation: gradientShift 18s ease infinite;
             min-height: 100vh;
             padding: 20px;
-            color: #333;
+            color: var(--text-primary);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(-12deg) scale(1.1); }
+            75% { transform: rotate(12deg) scale(1.1); }
+        }
+
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.85) translateY(12px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            background: white;
+            background: var(--surface);
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             overflow: hidden;
+            transition: background-color 0.3s ease;
         }
 
         .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            background: var(--hero-gradient);
+            background-size: 200% 200%;
+            animation: gradientShift 10s ease infinite;
             color: white;
             padding: 60px 40px;
             text-align: center;
@@ -43,16 +121,46 @@
             font-weight: 700;
         }
 
+        .header h1 .rocket {
+            display: inline-block;
+            animation: wiggle 2.5s ease-in-out infinite;
+        }
+
         .header p {
             font-size: 16px;
             opacity: 0.95;
         }
 
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(6px);
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s var(--spring), background 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.15) rotate(15deg);
+            background: rgba(255, 255, 255, 0.28);
+        }
+
         .nav-tabs {
             display: flex;
-            background: #f8f9fa;
-            border-bottom: 2px solid #e0e0e0;
+            background: var(--surface-alt);
+            border-bottom: 2px solid var(--border-color);
             overflow-x: auto;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
         }
 
         .nav-tab {
@@ -62,15 +170,15 @@
             cursor: pointer;
             font-size: 15px;
             font-weight: 600;
-            color: #666;
-            transition: all 0.3s ease;
+            color: var(--text-muted);
+            transition: color 0.25s ease, background 0.25s ease, transform 0.25s var(--spring);
             white-space: nowrap;
             border-bottom: 3px solid transparent;
             margin-bottom: -2px;
         }
 
-        .nav-tab:hover { color: #667eea; background: #f0f0f0; }
-        .nav-tab.active { color: #667eea; border-bottom-color: #667eea; }
+        .nav-tab:hover { color: var(--accent-1); background: var(--border-light); transform: translateY(-2px); }
+        .nav-tab.active { color: var(--accent-2); border-bottom-color: var(--accent-pink); }
 
         .content { padding: 40px; }
 
@@ -96,7 +204,16 @@
             border-radius: 15px;
             text-align: center;
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+            transition: transform 0.3s var(--spring), box-shadow 0.3s ease;
         }
+
+        .stat-card:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 10px 25px var(--glow-shadow);
+        }
+
+        .stat-card:nth-child(2) { background: linear-gradient(135deg, #f093fb 0%, #764ba2 100%); }
+        .stat-card:nth-child(3) { background: linear-gradient(135deg, #4facfe 0%, #667eea 100%); }
 
         .stat-number {
             font-size: 32px;
@@ -121,30 +238,31 @@
 
         .os-tab {
             padding: 16px 20px;
-            border: 2px solid #e0e0e0;
-            background: white;
+            border: 2px solid var(--border-color);
+            background: var(--surface);
             border-radius: 12px;
             cursor: pointer;
             font-size: 15px;
             font-weight: 600;
-            color: #666;
-            transition: all 0.3s ease;
+            color: var(--text-muted);
+            transition: color 0.25s ease, background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.3s var(--spring);
             text-align: center;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
         .os-tab:hover {
-            border-color: #667eea;
-            color: #667eea;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.15);
+            border-color: var(--accent-1);
+            color: var(--accent-1);
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 8px 20px var(--glow-shadow);
         }
 
         .os-tab.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--hero-gradient);
             color: white;
-            border-color: #667eea;
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            border-color: var(--accent-1);
+            box-shadow: 0 8px 25px var(--glow-shadow);
+            transform: scale(1.03);
         }
 
         .os-content { display: none; }
@@ -154,34 +272,34 @@
             font-size: 20px;
             font-weight: 700;
             margin-bottom: 25px;
-            color: #1a1a1a;
+            color: var(--text-primary);
         }
 
         .step-box {
-            background: white;
-            border: 2px solid #f0f0f0;
-            border-left: 5px solid #667eea;
+            background: var(--surface);
+            border: 2px solid var(--border-light);
+            border-left: 5px solid var(--accent-1);
             padding: 28px;
             margin-bottom: 18px;
             border-radius: 14px;
-            transition: all 0.3s ease;
+            transition: border-color 0.25s ease, box-shadow 0.3s ease, transform 0.3s var(--spring), background-color 0.3s ease;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
         }
 
         .step-box:hover {
-            border-color: #667eea;
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.12);
-            transform: translateY(-2px);
+            border-color: var(--accent-1);
+            box-shadow: 0 10px 28px var(--glow-shadow);
+            transform: translateY(-4px) scale(1.01);
         }
 
         .step-box.success-step {
             border-left-color: #27ae60;
-            background: linear-gradient(to right, #f0fdf4 0%, white 100%);
+            background: linear-gradient(to right, rgba(39, 174, 96, 0.1) 0%, var(--surface) 100%);
         }
 
         .step-box.info-step {
             border-left-color: #2196F3;
-            background: linear-gradient(to right, #eff6ff 0%, white 100%);
+            background: linear-gradient(to right, rgba(33, 150, 243, 0.1) 0%, var(--surface) 100%);
         }
 
         .step-header {
@@ -194,7 +312,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--hero-gradient);
             color: white;
             width: 44px;
             height: 44px;
@@ -203,7 +321,12 @@
             font-size: 20px;
             margin-right: 16px;
             flex-shrink: 0;
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 4px 12px var(--glow-shadow);
+            transition: transform 0.3s var(--spring);
+        }
+
+        .step-box:hover .step-number {
+            transform: rotate(-8deg) scale(1.1);
         }
 
         .step-box.success-step .step-number {
@@ -217,7 +340,7 @@
         .step-title {
             font-size: 17px;
             font-weight: 700;
-            color: #1a1a1a;
+            color: var(--text-primary);
             line-height: 1.3;
         }
 
@@ -227,28 +350,28 @@
         }
 
         .step-description {
-            color: #555;
+            color: var(--text-secondary);
             line-height: 1.7;
             margin-bottom: 14px;
             font-size: 14px;
         }
 
         .step-description a {
-            color: #667eea;
+            color: var(--accent-1);
             text-decoration: none;
             font-weight: 600;
-            transition: all 0.3s ease;
+            transition: color 0.25s ease, border-color 0.25s ease;
             border-bottom: 1px solid transparent;
         }
 
         .step-description a:hover {
-            color: #764ba2;
-            border-bottom-color: #764ba2;
+            color: var(--accent-pink);
+            border-bottom-color: var(--accent-pink);
         }
 
         .code-block {
-            background: #1a1a1a;
-            color: #e6e6e6;
+            background: var(--code-bg);
+            color: var(--code-text);
             padding: 16px 18px;
             border-radius: 10px;
             font-family: 'Courier New', 'Monaco', monospace;
@@ -280,7 +403,7 @@
             position: absolute;
             top: 10px;
             right: 10px;
-            background: #667eea;
+            background: var(--accent-1);
             color: white;
             border: none;
             padding: 8px 14px;
@@ -288,27 +411,27 @@
             cursor: pointer;
             font-size: 12px;
             font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+            transition: background 0.25s ease, transform 0.25s var(--spring), box-shadow 0.25s ease;
+            box-shadow: 0 3px 10px var(--glow-shadow);
         }
 
         .copy-btn:hover {
-            background: #764ba2;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            background: var(--accent-pink);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 5px 15px var(--glow-shadow);
         }
 
         .copy-btn:active {
-            transform: translateY(0);
+            transform: scale(0.92);
         }
 
         .info-box {
-            background: #e3f2fd;
+            background: rgba(33, 150, 243, 0.12);
             padding: 14px 16px;
             border-radius: 10px;
             border-left: 4px solid #2196F3;
             margin-bottom: 14px;
-            color: #1565c0;
+            color: var(--text-primary);
             font-size: 13px;
             line-height: 1.6;
         }
@@ -343,7 +466,7 @@
 
         .separator {
             height: 1px;
-            background: linear-gradient(90deg, #e0e0e0 0%, transparent 50%, #e0e0e0 100%);
+            background: linear-gradient(90deg, var(--border-color) 0%, transparent 50%, var(--border-color) 100%);
             margin: 40px 0;
         }
 
@@ -351,19 +474,20 @@
         .search-box {
             width: 100%;
             padding: 16px 20px;
-            border: 2px solid #e0e0e0;
+            border: 2px solid var(--border-color);
             border-radius: 12px;
             font-size: 15px;
-            transition: all 0.3s ease;
-            background: #f8f9fa;
+            transition: border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+            background: var(--surface-alt);
+            color: var(--text-primary);
             margin-bottom: 20px;
         }
 
         .search-box:focus {
             outline: none;
-            border-color: #667eea;
-            background: white;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: var(--accent-1);
+            background: var(--surface);
+            box-shadow: 0 0 0 3px var(--glow-shadow);
         }
 
         .filter-buttons {
@@ -375,26 +499,28 @@
 
         .filter-btn {
             padding: 10px 18px;
-            border: 2px solid #e0e0e0;
-            background: white;
+            border: 2px solid var(--border-color);
+            background: var(--surface);
             border-radius: 25px;
             cursor: pointer;
             font-size: 14px;
             font-weight: 600;
-            transition: all 0.3s ease;
-            color: #666;
+            transition: color 0.25s ease, background 0.25s ease, border-color 0.25s ease, transform 0.25s var(--spring);
+            color: var(--text-muted);
         }
 
         .filter-btn:hover {
-            border-color: #667eea;
-            color: #667eea;
+            border-color: var(--accent-1);
+            color: var(--accent-1);
+            transform: translateY(-2px) scale(1.04);
         }
 
         .filter-btn.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--hero-gradient);
             color: white;
-            border-color: #667eea;
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            border-color: var(--accent-1);
+            box-shadow: 0 5px 15px var(--glow-shadow);
+            transform: scale(1.04);
         }
 
         .commands-grid {
@@ -405,19 +531,20 @@
         }
 
         .command-card {
-            background: white;
-            border: 2px solid #f0f0f0;
+            background: var(--surface);
+            border: 2px solid var(--border-light);
             border-radius: 15px;
             padding: 25px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: border-color 0.25s ease, box-shadow 0.3s ease, transform 0.3s var(--spring), background-color 0.3s ease;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            animation: popIn 0.35s var(--spring) backwards;
         }
 
         .command-card:hover {
-            border-color: #667eea;
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.15);
-            transform: translateY(-5px);
+            border-color: var(--accent-1);
+            box-shadow: 0 14px 32px var(--glow-shadow);
+            transform: translateY(-6px) scale(1.02) rotate(-0.5deg);
         }
 
         .cmd-category {
@@ -433,11 +560,19 @@
             letter-spacing: 0.5px;
         }
 
+        .cmd-category.cat-basic { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .cmd-category.cat-changes { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+        .cmd-category.cat-branch { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .cmd-category.cat-remote { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+        .cmd-category.cat-history { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .cmd-category.cat-undo { background: linear-gradient(135deg, #fc6076 0%, #ff9a44 100%); }
+        .cmd-category.cat-tags { background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); }
+
         .cmd-name {
             font-family: 'Courier New', monospace;
             font-size: 15px;
             font-weight: 700;
-            color: #667eea;
+            color: var(--accent-1);
             margin-bottom: 10px;
             word-break: break-all;
             line-height: 1.4;
@@ -445,19 +580,19 @@
 
         .cmd-description {
             font-size: 14px;
-            color: #666;
+            color: var(--text-muted);
             line-height: 1.6;
             margin-bottom: 15px;
         }
 
         .cmd-usage {
             font-size: 13px;
-            background: #f5f7ff;
+            background: var(--surface-raised);
             padding: 12px;
             border-radius: 10px;
-            border-left: 4px solid #667eea;
+            border-left: 4px solid var(--accent-1);
             font-family: 'Courier New', monospace;
-            color: #333;
+            color: var(--text-primary);
             margin-bottom: 15px;
             word-break: break-all;
             line-height: 1.5;
@@ -465,15 +600,15 @@
 
         .cmd-when {
             font-size: 13px;
-            color: #666;
+            color: var(--text-muted);
             padding-top: 15px;
-            border-top: 2px solid #f0f0f0;
+            border-top: 2px solid var(--border-light);
             line-height: 1.6;
         }
 
         .cmd-when-title {
             font-weight: 700;
-            color: #333;
+            color: var(--text-primary);
             margin-bottom: 8px;
             display: flex;
             align-items: center;
@@ -485,12 +620,13 @@
         }
 
         .footer {
-            background: #f8f9fa;
+            background: var(--surface-alt);
             padding: 30px 40px;
             text-align: center;
-            color: #999;
+            color: var(--text-faint);
             font-size: 14px;
-            border-top: 1px solid #f0f0f0;
+            border-top: 1px solid var(--border-light);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
         }
 
         .footer-links {
@@ -498,14 +634,14 @@
         }
 
         .footer-links a {
-            color: #667eea;
+            color: var(--accent-1);
             text-decoration: none;
             margin: 0 10px;
             transition: color 0.3s ease;
         }
 
         .footer-links a:hover {
-            color: #764ba2;
+            color: var(--accent-pink);
             text-decoration: underline;
         }
 
@@ -524,7 +660,7 @@
         .empty-state {
             text-align: center;
             padding: 60px 40px;
-            color: #999;
+            color: var(--text-faint);
         }
 
         .empty-state-icon {
@@ -534,7 +670,7 @@
 
         .empty-state h3 {
             font-size: 24px;
-            color: #666;
+            color: var(--text-muted);
             margin-bottom: 10px;
         }
 
@@ -545,6 +681,17 @@
         .beginner-tab-content.active {
             display: block;
             animation: fadeIn 0.3s ease;
+        }
+
+        /* section headings use inline color:#333 in the markup, which beats the stylesheet without !important */
+        .content h2[style*="#333"],
+        .content h3[style*="#333"] {
+            color: var(--text-primary) !important;
+        }
+
+        /* these inline <code> snippets keep a fixed light-gray background, so pin dark text regardless of theme */
+        code[style*="#f0f0f0"] {
+            color: #1a1a1a !important;
         }
 
         @media (max-width: 768px) {
@@ -560,7 +707,8 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🚀 Complete Git & GitHub Guide</h1>
+            <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle dark mode">🌙</button>
+            <h1><span class="rocket">🚀</span> Complete Git & GitHub Guide</h1>
             <p>Installation, Setup, and Master All Git Commands</p>
         </div>
 
@@ -685,7 +833,7 @@
                                 <button class="copy-btn" onclick="copyCode(this)">Copy</button>
                             </div>
                             <div class="info-box">
-                                Don't have Homebrew? Install it from <a href="https://brew.sh/" target="_blank" style="color: #1565c0;">https://brew.sh/</a>
+                                Don't have Homebrew? Install it from <a href="https://brew.sh/" target="_blank" style="color: var(--accent-1);">https://brew.sh/</a>
                             </div>
                         </div>
                     </div>
@@ -1986,6 +2134,26 @@ jobs:
     </div>
 
     <script>
+        function applyThemeIcon() {
+            const explicit = document.documentElement.getAttribute('data-theme');
+            const isDark = explicit ? explicit === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+            document.getElementById('themeToggle').textContent = isDark ? '☀️' : '🌙';
+        }
+
+        function toggleTheme() {
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const current = document.documentElement.getAttribute('data-theme') || (prefersDark ? 'dark' : 'light');
+            const next = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+            applyThemeIcon();
+        }
+
+        (function initTheme() {
+            const saved = localStorage.getItem('theme');
+            if (saved) document.documentElement.setAttribute('data-theme', saved);
+        })();
+
         const commands = [
             { name: 'git config --global user.name "Name"', category: 'basic', description: 'Set your name for commits', usage: 'git config --global user.name "John Doe"', when: 'First time setup' },
             { name: 'git config --global user.email "email@example.com"', category: 'basic', description: 'Set your email for commits', usage: 'git config --global user.email "john@example.com"', when: 'First time setup' },
@@ -2092,7 +2260,7 @@ jobs:
                 const card = document.createElement('div');
                 card.className = 'command-card';
                 card.innerHTML = `
-                    <div class="cmd-category">${cmd.category}</div>
+                    <div class="cmd-category cat-${cmd.category}">${cmd.category}</div>
                     <div class="cmd-name">$ ${cmd.name}</div>
                     <div class="cmd-description">${cmd.description}</div>
                     <div class="cmd-usage">$ ${cmd.usage}</div>
@@ -2121,6 +2289,7 @@ jobs:
 
         search.addEventListener('input', filter);
         render(commands);
+        applyThemeIcon();
     </script>
 </body>
 </html>
