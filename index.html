@@ -568,6 +568,7 @@
         .cmd-category.cat-history { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
         .cmd-category.cat-undo { background: linear-gradient(135deg, #fc6076 0%, #ff9a44 100%); }
         .cmd-category.cat-tags { background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); }
+        .cmd-category.cat-advanced { background: linear-gradient(135deg, #485563 0%, #29323c 100%); }
 
         .cmd-name {
             font-family: 'Courier New', monospace;
@@ -1648,15 +1649,15 @@ sudo apt install git
 
                 <div class="stats">
                     <div class="stat-card">
-                        <div class="stat-number" id="total">50</div>
+                        <div class="stat-number" id="total">76</div>
                         <div class="stat-label">Total Commands</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-number" id="showing">50</div>
+                        <div class="stat-number" id="showing">76</div>
                         <div class="stat-label">Showing</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-number">7</div>
+                        <div class="stat-number">8</div>
                         <div class="stat-label">Categories</div>
                     </div>
                 </div>
@@ -1672,6 +1673,7 @@ sudo apt install git
                     <button class="filter-btn" data-filter="history">History</button>
                     <button class="filter-btn" data-filter="undo">Undo</button>
                     <button class="filter-btn" data-filter="tags">Tags</button>
+<button class="filter-btn" data-filter="advanced">Advanced</button>
                 </div>
 
                 <div class="commands-grid" id="grid"></div>
@@ -2486,6 +2488,10 @@ jobs:
             { name: 'git commit --amend', category: 'changes', description: 'Edit your most recent commit', usage: 'git commit --amend -m "Updated message"', when: 'Fix the last commit message or add forgotten changes' },
             { name: 'git rm <file>', category: 'changes', description: 'Remove a file and stage the deletion', usage: 'git rm old-file.txt', when: 'Delete a tracked file from the project' },
             { name: 'git mv <old> <new>', category: 'changes', description: 'Rename or move a file and stage the change', usage: 'git mv old-name.txt new-name.txt', when: 'Rename or relocate a tracked file' },
+            { name: 'git diff --cached', category: 'changes', description: 'See what changes are staged for the next commit', usage: 'git diff --cached', when: 'Review staged changes before committing' },
+            { name: 'git commit -a -m "message"', category: 'changes', description: 'Stage all tracked, modified files and commit in one step', usage: 'git commit -a -m "Fixed typo"', when: 'Skip git add for files Git already tracks' },
+            { name: 'git commit', category: 'changes', description: 'Open your editor to write a commit message', usage: 'git commit', when: 'Write a longer, multi-line commit message' },
+            { name: 'git rm -r <dir>', category: 'changes', description: 'Remove a directory and stage the deletion', usage: 'git rm -r old-folder/', when: 'Delete an entire tracked directory' },
             { name: 'git branch', category: 'branch', description: 'List all branches', usage: 'git branch', when: 'See available branches' },
             { name: 'git branch <name>', category: 'branch', description: 'Create a new branch', usage: 'git branch feature/new-login', when: 'Start work on a feature' },
             { name: 'git checkout <branch>', category: 'branch', description: 'Switch to a branch', usage: 'git checkout feature/new-login', when: 'Work on different branch' },
@@ -2495,6 +2501,15 @@ jobs:
             { name: 'git branch -m <new-name>', category: 'branch', description: 'Rename the current branch', usage: 'git branch -m feature/renamed', when: 'Fix a branch name typo' },
             { name: 'git switch <branch>', category: 'branch', description: 'Switch to an existing branch', usage: 'git switch main', when: 'Modern alternative to git checkout' },
             { name: 'git switch -c <branch>', category: 'branch', description: 'Create and switch to a new branch', usage: 'git switch -c feature/search', when: 'Modern alternative to git checkout -b' },
+            { name: 'git branch <new> <existing>', category: 'branch', description: 'Create a branch starting from another branch or commit', usage: 'git branch hotfix main', when: 'Branch off a specific starting point instead of HEAD' },
+            { name: 'git rebase <branch>', category: 'branch', description: 'Reapply your commits on top of another branch', usage: 'git rebase main', when: 'Keep a linear history instead of a merge commit' },
+            { name: 'git rebase --abort', category: 'branch', description: 'Cancel an in-progress rebase and return to the original state', usage: 'git rebase --abort', when: 'A rebase conflict is too messy to resolve' },
+            { name: 'git rebase --continue', category: 'branch', description: 'Resume a rebase after resolving a conflict', usage: 'git rebase --continue', when: 'After fixing conflicting files during a rebase' },
+            { name: 'git rebase --skip', category: 'branch', description: 'Skip the current commit during a rebase', usage: 'git rebase --skip', when: 'The current commit is no longer needed during rebase' },
+            { name: 'git mergetool', category: 'branch', description: 'Open a visual tool to resolve merge conflicts', usage: 'git mergetool', when: 'Conflicts are easier to resolve with a GUI' },
+            { name: 'git diff --ours <file>', category: 'branch', description: 'See your side of a merge conflict', usage: 'git diff --ours app.js', when: 'Compare your changes against the conflict' },
+            { name: 'git diff --theirs <file>', category: 'branch', description: 'See the incoming side of a merge conflict', usage: 'git diff --theirs app.js', when: 'Compare incoming changes against the conflict' },
+            { name: 'git diff --base <file>', category: 'branch', description: 'See a conflicted file compared to the common ancestor', usage: 'git diff --base app.js', when: 'Understand what both sides changed from the original' },
             { name: 'git remote add origin <url>', category: 'remote', description: 'Connect to GitHub', usage: 'git remote add origin https://github.com/user/repo.git', when: 'Link local repo to GitHub' },
             { name: 'git push', category: 'remote', description: 'Upload commits to GitHub', usage: 'git push', when: 'After committing' },
             { name: 'git push origin <branch>', category: 'remote', description: 'Push specific branch', usage: 'git push origin feature/new-feature', when: 'Push new branches' },
@@ -2503,6 +2518,8 @@ jobs:
             { name: 'git remote -v', category: 'remote', description: 'List remote repositories and their URLs', usage: 'git remote -v', when: 'Check which remote you are connected to' },
             { name: 'git remote remove <name>', category: 'remote', description: 'Disconnect a remote repository', usage: 'git remote remove origin', when: 'Unlink or replace a remote' },
             { name: 'git push --force-with-lease', category: 'remote', description: 'Safely force-push over a rewritten history', usage: 'git push --force-with-lease', when: 'After rebasing a branch already pushed' },
+            { name: 'git remote show <remote>', category: 'remote', description: 'See detailed info about a remote, including tracked branches', usage: 'git remote show origin', when: 'Inspect what a remote is connected to' },
+            { name: 'git push <remote> :<branch>', category: 'remote', description: 'Delete a branch on the remote', usage: 'git push origin :feature/old', when: 'Remove a branch from GitHub after merging' },
             { name: 'git log', category: 'history', description: 'See commit history', usage: 'git log', when: 'Review project history' },
             { name: 'git log --oneline', category: 'history', description: 'Short commit history', usage: 'git log --oneline', when: 'Quick overview' },
             { name: 'git show <commit>', category: 'history', description: 'See commit details', usage: 'git show a1b2c3d', when: 'Review specific commit' },
@@ -2510,6 +2527,7 @@ jobs:
             { name: 'git log --graph --oneline', category: 'history', description: 'See branch history as a visual graph', usage: 'git log --graph --oneline --all', when: 'Understand how branches diverged and merged' },
             { name: 'git log -p <file>', category: 'history', description: 'See the full diff for each commit to a file', usage: 'git log -p index.html', when: 'Trace exactly how a file evolved' },
             { name: 'git diff <branch1>..<branch2>', category: 'history', description: 'Compare changes between two branches', usage: 'git diff main..feature/login', when: 'Preview what a merge or PR will bring in' },
+            { name: 'git log --pretty=short', category: 'history', description: 'See a condensed commit history with author and message', usage: 'git log --pretty=short', when: 'A middle ground between the full log and --oneline' },
             { name: 'git restore <file>', category: 'undo', description: 'Discard file changes', usage: 'git restore style.css', when: 'Undo mistakes' },
             { name: 'git reset HEAD~1', category: 'undo', description: 'Undo last commit', usage: 'git reset HEAD~1', when: 'Keep work, undo commit' },
             { name: 'git reset --hard HEAD~1', category: 'undo', description: 'Delete last commit', usage: 'git reset --hard HEAD~1', when: 'Remove commit completely' },
@@ -2518,11 +2536,21 @@ jobs:
             { name: 'git stash pop', category: 'undo', description: 'Restore stashed work', usage: 'git stash pop', when: 'Get back saved work' },
             { name: 'git clean -fd', category: 'undo', description: 'Remove untracked files and directories', usage: 'git clean -fd', when: 'Clear out generated files not tracked by Git' },
             { name: 'git reflog', category: 'undo', description: 'See a log of where HEAD has been', usage: 'git reflog', when: 'Recover a commit after a bad reset' },
+            { name: 'git checkout -- <file>', category: 'undo', description: 'Discard uncommitted changes to a file using the classic syntax', usage: 'git checkout -- style.css', when: 'Older Git versions, or before git restore existed' },
             { name: 'git tag', category: 'tags', description: 'List all tags in the repository', usage: 'git tag', when: 'See available release tags' },
             { name: 'git tag -a <tag> -m "message"', category: 'tags', description: 'Create an annotated tag', usage: 'git tag -a v1.0.0 -m "First release"', when: 'Mark a specific commit as a release' },
             { name: 'git push origin <tag>', category: 'tags', description: 'Push a single tag to GitHub', usage: 'git push origin v1.0.0', when: 'Share a release tag with others' },
             { name: 'git push --tags', category: 'tags', description: 'Push all local tags to GitHub', usage: 'git push --tags', when: 'Publish every tag at once' },
             { name: 'git tag -d <tag>', category: 'tags', description: 'Delete a local tag', usage: 'git tag -d v1.0.0', when: 'Remove a mistaken or outdated tag' },
+            { name: 'git tag <tagname>', category: 'tags', description: 'Create a lightweight tag with no message or metadata', usage: 'git tag v1.0.0', when: 'Quickly mark a commit without an annotated tag' },
+            { name: 'git bisect start', category: 'advanced', description: 'Begin a binary search to find the commit that introduced a bug', usage: 'git bisect start', when: 'A bug appeared somewhere in a long commit history' },
+            { name: 'git bisect bad <commit>', category: 'advanced', description: 'Mark a commit as containing the bug', usage: 'git bisect bad HEAD', when: 'Tell bisect the current commit is broken' },
+            { name: 'git bisect good <commit>', category: 'advanced', description: 'Mark a commit as working correctly', usage: 'git bisect good v1.0.0', when: 'Tell bisect a known-working commit' },
+            { name: 'git bisect visualize', category: 'advanced', description: 'Open a visual view of the remaining bisect range', usage: 'git bisect visualize', when: 'See the commits still under suspicion' },
+            { name: 'git bisect reset', category: 'advanced', description: 'End the bisect session and return to your original branch', usage: 'git bisect reset', when: 'Done bisecting, or want to start over' },
+            { name: 'git fsck', category: 'advanced', description: 'Check the repository for corruption and dangling objects', usage: 'git fsck', when: 'Verify the integrity of the repository' },
+            { name: 'git gc --prune', category: 'advanced', description: 'Clean up unnecessary files and compress the repository', usage: 'git gc --prune=now', when: 'Reduce repository size and remove old loose objects' },
+            { name: 'git grep "pattern"', category: 'advanced', description: 'Search tracked files for a pattern', usage: 'git grep "TODO"', when: 'Find text across the whole repository quickly' },
         ];
 
         function switchTab(e, tabName) {
